@@ -1,0 +1,191 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: $title3;
+  font-family: $font1;
+  background-color: $background1;
+  height: 70px;
+}
+
+.window {
+  border-bottom: 2px solid $background3;
+}
+
+.visible {
+  transform: translateY(0);
+}
+
+.hidden {
+  transform: translateY(-100%);
+}
+
+.navbar-brand {
+  font-weight: bold;
+  width: 15%;
+  display: flex;
+  justify-content: space-between;
+  background: $background3;
+  height: 100%;
+
+
+  .imgEnglish {
+    height: 70%;
+    width: auto;
+    margin: auto;
+    margin-left: 5%;
+    cursor: pointer;
+  }
+
+  a {
+    color: $white;
+    font-size: 1rem;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    margin: auto;
+    text-decoration: none;
+  }
+}
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-toggle-icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-bottom: 4px;
+  color: $title1;
+}
+
+.navbar-toggle-icon:hover {
+  transform: scale(1.1);
+}
+
+.navbar-menu {
+  display: flex;
+  list-style: none;
+  width: 25%;
+  justify-content: space-around;
+
+  a {
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: $title1;
+  }
+
+  a:hover {
+    color: $title2;
+    font-weight: 600;
+  }
+
+  .active {
+    padding-bottom: 2px; /* Agregar espacio de 2 píxeles entre la letra y el subrayado */
+    border-bottom: 2px solid $title2;
+  }
+}
+
+.navbar-menu.open {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: $background1;
+  min-height: 100vh;
+  height: fit-content;
+  overflow: auto;
+}
+
+.searchContainer {
+  width: fit-content;
+  height: fit-content;
+  border: 2px solid $soft_gray;
+
+  button {
+    background: none;
+    border: none;
+    height: 25px;
+    color: $soft_gray;
+    width: 25px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    transform: scale(1.2);
+  }
+
+  input {
+    background: none;
+    border: none;
+    height: 30px;
+    padding: 0 10px;
+    width: min-content;
+    box-sizing: border-box;
+    border-right: 2px solid $soft_gray;
+  }
+
+  input:focus {
+    outline: none;
+  }
+}
+
+@media (max-width: $adaptation) {
+  .navbar {
+    justify-content: space-between;
+  }
+
+  .navbar-menu {
+    display: none;
+
+    a {
+      margin: 20px auto;
+      padding: 20px 0;
+      font-size: 2rem;
+      width: 60%;
+      text-align: center;
+    }
+  }
+
+  .navbar-toggle {
+    display: block;
+    font-size: 30px;
+    z-index: 2;
+    margin-right: 5%;
+    order: 3;
+  }
+
+  .navbar-brand {
+    width: 30%;
+  }
+
+  .searchContainer {
+    width: 50%;
+    height: fit-content;
+
+    button {
+      height: auto;
+      width: 15%;
+    }
+
+    input {
+      width: 85%;
+    }
+  }
+}
