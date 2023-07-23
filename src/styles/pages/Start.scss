@@ -1,8 +1,10 @@
 .containerGirl1 {
     background: $soft_gray;
     width: 100%;
-    height: 100vh;
+    min-height: calc(100vh - 70px);
+    height: fit-content;
     display: flex;
+
 
     .containerStart {
         width: 35%;
@@ -59,7 +61,7 @@
 
             .randomGameButton {
                 background: $background3;
-
+                padding-left: 5%;
                 i {
                     left: 10%;
                 }
@@ -68,7 +70,7 @@
 
             .premiumButton {
                 background: $title1;
-
+                padding-right: 5%;
                 i {
                     right: 10%;
                 }
@@ -86,4 +88,74 @@
         height: auto;
         object-fit: cover;
     }
+}
+
+.containerAllResources {
+    width: 94%;
+    background: red;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+
+    .containerAll {
+        width: 68%;
+        background: green;
+        height: 800px;
+    }
+
+    .containerNews {
+        width: 28%;
+        background: greenyellow;
+        height: 800px;
+    }
+
+}
+
+@media (max-width: $adaptation) {
+    .containerGirl1 {
+        display: block;
+        position: relative;
+        height: calc(100vh - 70px);
+        min-height: 600px;
+
+        .containerStart {
+            padding: 10% 3% 5% 3%;
+            justify-content: end;
+            width: 100%;
+            height: calc(100vh - 70px);
+            position: absolute;
+            box-sizing: border-box;
+            z-index: 1;
+            min-height: 600px;
+
+            .startText {
+                height: fit-content;
+                background: rgba(255, 255, 255, 0.644);
+            }
+        }
+
+        .imgGirl1 {
+            width: 100%;
+            height: calc(100vh - 70px);
+            position: absolute;
+            min-height: 600px;
+        }
+    }
+}
+
+
+@media (max-width: $adaptation) {
+    .containerAllResources {
+        display: block;
+
+        .containerAll {
+            width: 100%;
+        }
+
+        .containerNews {
+            width: 100%;
+        }
+    }
+
 }

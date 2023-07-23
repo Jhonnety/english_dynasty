@@ -6,8 +6,6 @@ import { Link, NavLink } from 'react-router-dom';
 export const Header = () => {
 
   const [isNavOpen, setIsNavOpen] = useState(false);
-  const [isNavVisible, setIsNavVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(window.pageYOffset);
   const [screen, setScreen] = useState(true)
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
@@ -30,26 +28,10 @@ export const Header = () => {
   }, []);
 
 
-  const handleScroll = () => {
-    const currentScrollPos = window.pageYOffset;
-    const isVisible = prevScrollPos > currentScrollPos || currentScrollPos === 0;
-
-    setIsNavVisible(isVisible);
-    setPrevScrollPos(currentScrollPos);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [prevScrollPos]);
-
   return (
-    <nav className={`navbar  ${isNavVisible ? 'visible' : 'hidden'} ${prevScrollPos > 50 ? 'window' : ''}`}>
+    <nav className="navbar">
       <div className="navbar-brand">
-        <img className='imgEnglish' src={icon_englishdynasty} />
+        <img className='imgEnglish' src={icon_englishdynasty} alt='icon_englishdynasty'/>
         <Link
           to="/"
         >
@@ -64,18 +46,21 @@ export const Header = () => {
         <NavLink
           className={({ isActive }) => `${isActive ? 'active' : ''}`}
           to="/start"
+          onClick={toggleNav}
         >
           Start
         </NavLink>
         <NavLink
           className={({ isActive }) => `${isActive ? 'active' : ''}`}
           to="/games"
+          onClick={toggleNav}
         >
           Games
         </NavLink>
         <NavLink
           className={({ isActive }) => `${isActive ? 'active' : ''}`}
           to="/resources"
+          onClick={toggleNav}
         >
           Resources
         </NavLink>
