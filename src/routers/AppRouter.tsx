@@ -1,12 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
 import { DynastyRoutes } from './DynastyRoutes'
-import { Auth } from '../components'
+import { AuthRoutes } from '../auth/routes/AuthRoutes'
 
 export const AppRouter = () => {
     return (
         <>
             <Routes>
-                <Route path="/auth" element={<Auth/>}
+                <Route path="/auth/*" element={<AuthRoutes/>}
                 />
                 <Route path="/*" element={<DynastyRoutes />}
                 />
