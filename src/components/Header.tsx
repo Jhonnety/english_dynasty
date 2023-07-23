@@ -7,8 +7,9 @@ export const Header = () => {
 
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [screen, setScreen] = useState(true)
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
+  const toggleNav = (responsiveNav: boolean = false) => {
+    if (responsiveNav) setIsNavOpen(false);
+    else setIsNavOpen(!isNavOpen);
   };
 
   useEffect(() => {
@@ -31,14 +32,14 @@ export const Header = () => {
   return (
     <nav className="navbar">
       <div className="navbar-brand">
-        <img className='imgEnglish' src={icon_englishdynasty} alt='icon_englishdynasty'/>
+        <img className='imgEnglish' src={icon_englishdynasty} alt='icon_englishdynasty' />
         <Link
           to="/"
         >
           English Dynasty
         </Link>
       </div>
-      <button className="navbar-toggle" onClick={toggleNav}>
+      <button className="navbar-toggle" onClick={() => toggleNav()}>
         <i className="fa-solid fa-bars navbar-toggle-icon"></i>
       </button>
       <ul className={`navbar-menu ${isNavOpen ? 'open' : ''}`}>
@@ -46,21 +47,21 @@ export const Header = () => {
         <NavLink
           className={({ isActive }) => `${isActive ? 'active' : ''}`}
           to="/start"
-          onClick={toggleNav}
+          onClick={() => toggleNav(true)}
         >
           Start
         </NavLink>
         <NavLink
           className={({ isActive }) => `${isActive ? 'active' : ''}`}
           to="/games"
-          onClick={toggleNav}
+          onClick={() => toggleNav(true)}
         >
           Games
         </NavLink>
         <NavLink
           className={({ isActive }) => `${isActive ? 'active' : ''}`}
           to="/resources"
-          onClick={toggleNav}
+          onClick={() => toggleNav(true)}
         >
           Resources
         </NavLink>
