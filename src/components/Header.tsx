@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import icon_englishdynasty from '../assets/icons/icon_englishdynasty.png'
-import { Profile } from './Profile';
 import { Link, NavLink } from 'react-router-dom';
+import { Profile } from '../profile/components/Profile';
+import { MenuProfile, ProfileAdapted } from '../profile/components';
 
 export const Header = () => {
 
@@ -43,28 +44,29 @@ export const Header = () => {
         <i className="fa-solid fa-bars navbar-toggle-icon"></i>
       </button>
       <ul className={`navbar-menu ${isNavOpen ? 'open' : ''}`}>
-        {!screen && <Profile />}
+        {!screen && <ProfileAdapted />}
         <NavLink
-          className={({ isActive }) => `${isActive ? 'active' : ''}`}
+          className={({ isActive }) => `${isActive ? 'active linkHeader' : 'linkHeader'}`}
           to="/start"
           onClick={() => toggleNav(true)}
         >
-          Start
+          <i className="fa-regular fa-house"></i> Start
         </NavLink>
         <NavLink
-          className={({ isActive }) => `${isActive ? 'active' : ''}`}
+          className={({ isActive }) => `${isActive ? 'active linkHeader' : 'linkHeader'}`}
           to="/games"
           onClick={() => toggleNav(true)}
         >
-          Games
+          <i className="fa-light fa-alien-8bit"></i> Games
         </NavLink>
         <NavLink
-          className={({ isActive }) => `${isActive ? 'active' : ''}`}
+          className={({ isActive }) => `${isActive ? 'active linkHeader' : 'linkHeader'}`}
           to="/resources"
           onClick={() => toggleNav(true)}
         >
-          Resources
+          <i className="fa-solid fa-bullseye-arrow"></i> Resources
         </NavLink>
+        {!screen && <><hr/><MenuProfile /></>}
       </ul>
       <div className='searchContainer'>
         <input className='searchInput' placeholder='Search' />

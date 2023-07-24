@@ -1,0 +1,51 @@
+.userProfile {
+  width: fit-content;
+  margin-right: 5%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  h1 {
+    font-size: 1rem;
+    font-weight: 500;
+
+    button {
+      background: none;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      cursor: pointer;
+
+      i {
+        transform: translateY(1.5px);
+      }
+    }
+
+    button:hover {
+      color: $title2;
+    }
+  }
+
+  img {
+    height: 50px;
+    width: auto;
+    margin: 0 10px
+  }
+
+  .logInProfile {
+    background: $title1;
+    color: $white;
+    font-size: 1rem;
+    height: 80%;
+    width: 100px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+  .logInProfile:hover {
+    transform: scale(1.05);
+  }
+}

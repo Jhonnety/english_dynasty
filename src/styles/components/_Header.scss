@@ -64,22 +64,24 @@
   justify-content: space-around;
   z-index: 2;
 
-  a {
+  .linkHeader {
     font-size: 1.2rem;
     cursor: pointer;
     padding: 5px 10px;
     text-decoration: none;
     color: $title3;
+    i{
+      display: none;
+    }
   }
 
-  a:hover {
+  .linkHeader:hover {
     color: $title2;
     font-weight: 600;
   }
 
   .active {
     padding-bottom: 2px;
-    /* Agregar espacio de 2 píxeles entre la letra y el subrayado */
     border-bottom: 2px solid $title2;
   }
 }
@@ -90,8 +92,6 @@
   left: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100%;
   background-color: $background1;
   min-height: 100vh;
@@ -139,13 +139,35 @@
 
   .navbar-menu {
     display: none;
+    padding-top: 100px;
+    justify-content: start;
 
-    a {
+    hr {
       margin: 20px auto;
-      padding: 20px 0;
-      font-size: 2rem;
-      width: 60%;
-      text-align: center;
+      width: 90%;
+      height: 1px;
+      background: $title3;
+      border: none;
+    }
+
+    .linkHeader {
+      padding: 0;
+      margin: 10px auto;
+      font-size: 1.5rem;
+      width: 90%;
+      text-align: start;
+      display: flex;
+      i{
+        display: block;
+        margin-right: 5px;
+        margin-top: 3px;
+      }
+    }
+
+    .active {
+      padding-bottom:0;
+      border-bottom: none;
+      background-color: $soft_gray;
     }
   }
 

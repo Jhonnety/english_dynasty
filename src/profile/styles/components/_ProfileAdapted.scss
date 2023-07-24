@@ -1,0 +1,25 @@
+@media (max-width: $adaptation) {
+    .userProfile {
+      width: 90%;
+      margin: 0 auto;
+      height: 50px;
+      display: flex;
+      justify-content: start;
+      align-self: start;
+      position: absolute;
+      top: 12px;
+
+      img {
+        height: 50px;
+        width: auto;
+        margin: 0 10px;
+        order: 1;
+      }
+  
+      h1 {
+        font-size: 1rem;
+        font-weight: 500;
+        order: 2;
+      }
+    }
+  }

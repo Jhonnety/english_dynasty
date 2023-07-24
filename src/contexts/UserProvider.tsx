@@ -11,7 +11,7 @@ import {
 } from 'firebase/auth'
 
 interface UserContextProps {
-  englishUser: any;//EnglishUser;
+  englishUser: EnglishUser;
   register: (email: string, password: string) => Promise<void>,
   login: (email: string, password: string) => Promise<void>,
   loginWithGoogle: any,
@@ -55,7 +55,12 @@ export const UserProvider = ({
         console.log("There is not suscribed user")
         setEnglishUser({})
       } else {
-        setEnglishUser(currentUser)
+        setEnglishUser({
+          name:currentUser.displayName,
+          email:currentUser.email,
+          uid:currentUser.uid,
+          url:currentUser.photoURL
+        })
       }
     })
 

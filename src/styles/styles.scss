@@ -3,7 +3,11 @@
 
 //components
 @import './components/Header';
-@import './components/Profile';
 
 //pages
 @import './pages/Start.scss';
+
+//profile/componentes
+@import '../profile/styles/components/Profile.scss';
+@import '../profile/styles/components/MenuProfile.scss';
+@import '../profile/styles/components/ProfileAdapted.scss';

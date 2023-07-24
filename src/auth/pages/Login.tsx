@@ -4,8 +4,6 @@ import { UserContext } from "../../contexts/UserProvider";
 
 export const Login = () => {
   const { login, loginWithGoogle, englishUser } = useContext(UserContext);
-  const { displayName } = englishUser
-  console.log(displayName)
   const { email, password, onInputChange } = useForm({
     email: "", password: ""
   })
@@ -19,7 +17,7 @@ export const Login = () => {
 
   return (
     <form onSubmit={handleLogin}>
-      {displayName && (<h1>{displayName}</h1>)}
+      { englishUser && JSON.stringify(englishUser)}
       <input
         name="email"
         value={email}
