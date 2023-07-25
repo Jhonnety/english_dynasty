@@ -5,8 +5,8 @@ import { MenuProfile } from './MenuProfile';
 import { useLocation } from 'react-router-dom';
 
 export const Profile = () => {
-  const { englishUser } = useContext(UserContext)
-    ;
+  const { englishUser } = useContext(UserContext);
+  
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
   const navigate = useNavigate();

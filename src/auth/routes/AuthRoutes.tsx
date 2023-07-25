@@ -1,8 +1,11 @@
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import { Footer, Header } from '../../components'
-import { Login, Register } from '../pages'
+import { AuthPage } from '../pages'
 import { UserContext } from '../../contexts/UserProvider'
 import { useContext, useEffect } from 'react'
+import { Login } from '../components/Login'
+import { SignUp } from '../components/SignUp'
+import { FrameAuth } from '../components/FrameAuth'
 
 export const AuthRoutes = () => {
 
@@ -19,11 +22,14 @@ export const AuthRoutes = () => {
     return (
         <>
             <Header />
-            <Routes>
-                <Route path="login" element={<Login />} />
-                <Route path="register" element={<Register />} />
-                <Route path="/*" element={<Navigate to="/auth/login" />} />
-            </Routes>
+            <AuthPage>
+                <FrameAuth/>
+                <Routes>
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<SignUp />} />
+                    <Route path="/*" element={<Navigate to="/auth/login" />} />
+                </Routes>
+            </AuthPage>
             <Footer />
         </>
     )

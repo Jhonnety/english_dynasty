@@ -1,0 +1,9 @@
+.authPageContainer {
+/*     background-color: aquamarine; */
+    width: 100%;
+    height: fit-content;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

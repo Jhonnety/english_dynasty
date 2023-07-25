@@ -6,14 +6,18 @@ function getFirstName(fullName: string) {
     const firstName = nameParts[0];
     const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
     return capitalizedFirstName;
-  }
+}
 
 export const ProfileAdapted = () => {
     const { englishUser } = useContext(UserContext)
     return (
-        <div className='userProfile'>
-            <h1>Hello, {getFirstName(englishUser.name + "")}</h1>
-            <img src={englishUser.url} />
-        </div>
+        <>
+            {englishUser.uid &&
+                <div className='userProfile'>
+                    <h1>Hello, {getFirstName(englishUser.name + "")}</h1>
+                    <img src={englishUser.url} />
+                </div>
+            }
+        </>
     )
 }

@@ -45,7 +45,7 @@
   cursor: pointer;
 }
 
-.navbar-toggle-icon {
+.navResponsiveButton {
   display: block;
   width: 20px;
   height: 20px;
@@ -53,7 +53,7 @@
   color: $title3;
 }
 
-.navbar-toggle-icon:hover {
+.navResponsiveButton:hover {
   transform: scale(1.1);
 }
 

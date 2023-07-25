@@ -2,14 +2,14 @@ import { FormEvent, useContext } from "react";
 import { useForm } from "../../hooks/useForm"
 import { UserContext } from "../../contexts/UserProvider";
 
-export const Register = () => {
+export const SignUp = () => {
   const { email, password, onInputChange } = useForm({
     email: "", password: ""
   })
-  const { register } = useContext(UserContext);
+  const { signUp } = useContext(UserContext);
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    register(email, password)
+    signUp(email, password)
   }
   return (
     <form onSubmit={handleLogin}>

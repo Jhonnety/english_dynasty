@@ -14,7 +14,7 @@ import { useMessage } from '../hooks/useMessage';
 const { message } = useMessage();
 interface UserContextProps {
   englishUser: EnglishUser;
-  register: (email: string, password: string) => Promise<void>,
+  signUp: (email: string, password: string) => Promise<void>,
   login: (email: string, password: string) => Promise<void>,
   loginWithGoogle: any,
   logOut: () => Promise<void>
@@ -23,7 +23,7 @@ interface UserContextProps {
 
 export const UserContext = createContext<UserContextProps>({
   englishUser: {},
-  register: () => Promise.resolve(),
+  signUp: () => Promise.resolve(),
   login: () => Promise.resolve(),
   loginWithGoogle: () => { },
   logOut: () => Promise.resolve(),
@@ -34,7 +34,7 @@ export const UserProvider = ({
 }: any) => {
   const [englishUser, setEnglishUser] = useState({});
 
-  const register = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string) => {
     const response = await createUserWithEmailAndPassword(auth, email, password);
     console.log(response)
   }
@@ -98,7 +98,7 @@ export const UserProvider = ({
     return () => suscribed()
   }, [])
   return (
-    <UserContext.Provider value={{ englishUser, register, login, loginWithGoogle, logOut }}>
+    <UserContext.Provider value={{ englishUser, signUp, login, loginWithGoogle, logOut }}>
       {children}
     </UserContext.Provider>
   );

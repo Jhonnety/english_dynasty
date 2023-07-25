@@ -41,7 +41,7 @@ export const Header = () => {
         </Link>
       </div>
       <button className="navbar-toggle" onClick={() => toggleNav()}>
-        <i className="fa-solid fa-bars navbar-toggle-icon"></i>
+        <i className={`fa-solid navResponsiveButton ${isNavOpen ? ' fa-right-from-bracket' : 'fa-bars navbar-toggle-icon'}`}></i>
       </button>
       <ul className={`navbar-menu ${isNavOpen ? 'open' : ''} ${!screen ? 'fadeInDown' : ''}`}>
         {!screen && <ProfileAdapted />}
