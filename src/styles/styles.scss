@@ -3,11 +3,11 @@
 
 //components
 @import './components/Header';
-
+@import './components/Alerts';
 //pages
-@import './pages/Start.scss';
-
+@import './pages/Start';
 //profile/componentes
-@import '../profile/styles/components/Profile.scss';
-@import '../profile/styles/components/MenuProfile.scss';
-@import '../profile/styles/components/ProfileAdapted.scss';
+@import '../profile/styles/components/Profile';
+@import '../profile/styles/components/MenuProfile';
+@import '../profile/styles/components/ProfileAdapted';
+

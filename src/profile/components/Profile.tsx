@@ -21,6 +21,13 @@ export const Profile = () => {
     const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
     return capitalizedFirstName;
   }
+  const subMenuOpen = () => {
+    setIsSubMenuOpen(true);
+  };
+
+  const subMenuClose = () => {
+    setIsSubMenuOpen(false);
+  };
 
   const handleMenuProfile = () => {
     setIsSubMenuOpen(!isSubMenuOpen);
@@ -31,13 +38,16 @@ export const Profile = () => {
       {englishUser.uid
         ?
         <>
-          <h1>Hello, <button onClick={handleMenuProfile}><b>{getFirstName(englishUser.name + "")} <i className="fa-solid fa-angle-down"></i></b></button></h1>
-          <img src={englishUser.url} />
-          {
-            isSubMenuOpen && <MenuProfile setIsSubMenuOpen={setIsSubMenuOpen}/>
-          }
+          <div className='subMenuProfile' onMouseLeave={subMenuClose}
+          >
+            <h1>Hello, <button onMouseOver={subMenuOpen} onClick={handleMenuProfile}><b>{getFirstName(englishUser.name + "")} <i className="fa-solid fa-angle-down"></i></b></button></h1>
+            <img src={englishUser.url} />
+            {
+              isSubMenuOpen && <MenuProfile setIsSubMenuOpen={setIsSubMenuOpen} />
+            }
+          </div>
         </>
-        : useLocation().pathname != '/auth/login' &&  <button onClick={logIn} className='logInProfile'>Log in</button>
+        : useLocation().pathname != '/auth/login' && <button onClick={logIn} className='logInProfile'>Log in</button>
       }
     </div>
   )

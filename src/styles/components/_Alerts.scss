@@ -1,0 +1,34 @@
+.ButtonMessage {
+    background-color: $title1 !important;
+    font-size: 1rem !important;
+}
+
+.ButtonMessage:hover {
+    box-shadow: none !important;
+    background: $background3 !important;
+    transform: scale(1.05) !important;
+}
+
+.ButtonMessage:focus {
+    box-shadow: none !important;
+    background: $background3 !important;
+}
+.successMessageTitle{
+    color: $title1 !important;
+    font-size: 2rem !important;
+    font-family: $font1  !important;
+}
+.errorMessageTitle{
+    color: $title2 !important;
+    font-size: 2rem !important;
+    font-family: $font1  !important;
+}
+.timerProgressBarSuccess{
+    height: 10px !important;
+    background: $title1 !important;
+}
+.timerProgressBarError{
+    height: 10px !important;
+    background: $title2 !important;
+}
+

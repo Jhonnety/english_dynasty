@@ -9,7 +9,9 @@ import {
   signOut,
   onAuthStateChanged,
 } from 'firebase/auth'
+import { useMessage } from '../hooks/useMessage';
 
+const { message } = useMessage();
 interface UserContextProps {
   englishUser: EnglishUser;
   register: (email: string, password: string) => Promise<void>,
@@ -43,11 +45,40 @@ export const UserProvider = ({
   const loginWithGoogle = async () => {
     const responseGoogle = new GoogleAuthProvider();
     return await signInWithPopup(auth, responseGoogle)
+      .then(() => {
+        message({
+          kind: 'success',
+          title: 'Login Successful',
+          paragraph: 'Welcome back! You have been successfully logged in.',
+        });
+      })
+      .catch((error) => {
+        message({
+          kind: 'error',
+          title: 'Login Failed',
+          paragraph: "We couldn't log you in. Please check your credentials and try again.",
+          error: error
+        });
+      });
   }
   const logOut = async () => {
-    const response = await signOut(auth)
-    console.log(response)
-  }
+    await signOut(auth)
+      .then(() => {
+        message({
+          kind: 'success',
+          title: 'Logged Out Successfully',
+          paragraph: 'You have been successfully logged out. Thank you for using our services!',
+        });
+      })
+      .catch((error) => {
+        message({
+          kind: 'error',
+          title: 'Logout Failed',
+          paragraph: 'Sorry, we encountered an error while trying to log you out. Please try again later.',
+          error: error
+        });
+      });
+  };
 
   useEffect(() => {
     const suscribed = onAuthStateChanged(auth, (currentUser) => {
@@ -56,10 +87,10 @@ export const UserProvider = ({
         setEnglishUser({})
       } else {
         setEnglishUser({
-          name:currentUser.displayName,
-          email:currentUser.email,
-          uid:currentUser.uid,
-          url:currentUser.photoURL
+          name: currentUser.displayName,
+          email: currentUser.email,
+          uid: currentUser.uid,
+          url: currentUser.photoURL
         })
       }
     })

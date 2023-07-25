@@ -43,7 +43,7 @@ export const Header = () => {
       <button className="navbar-toggle" onClick={() => toggleNav()}>
         <i className="fa-solid fa-bars navbar-toggle-icon"></i>
       </button>
-      <ul className={`navbar-menu ${isNavOpen ? 'open' : ''}`}>
+      <ul className={`navbar-menu ${isNavOpen ? 'open' : ''} ${!screen ? 'fadeInDown' : ''}`}>
         {!screen && <ProfileAdapted />}
         <NavLink
           className={({ isActive }) => `${isActive ? 'active linkHeader' : 'linkHeader'}`}
@@ -66,7 +66,7 @@ export const Header = () => {
         >
           <i className="fa-solid fa-bullseye-arrow"></i> Resources
         </NavLink>
-        {!screen && <><hr/><MenuProfile /></>}
+        {!screen && <><hr/><MenuProfile setIsSubMenuOpen={setIsNavOpen} /></>}
       </ul>
       <div className='searchContainer'>
         <input className='searchInput' placeholder='Search' />

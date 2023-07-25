@@ -1,5 +1,12 @@
+.subMenuProfile{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
 .userProfile {
-  width: fit-content;
+  width: 20%;
   margin-right: 5%;
   height: 50px;
   display: flex;
