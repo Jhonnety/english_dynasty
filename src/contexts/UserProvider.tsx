@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { EnglishUser } from '../models';
 import { auth } from '../firebase/Initialization';
 import {
@@ -10,6 +10,7 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth'
 import { useMessage } from '../hooks/useMessage';
+import { AuthContext } from '.';
 
 const { message } = useMessage();
 interface UserContextProps {
@@ -33,7 +34,8 @@ export const UserProvider = ({
   children
 }: any) => {
   const [englishUser, setEnglishUser] = useState({});
-
+  const { closeAll } = useContext(AuthContext);
+  
   const signUp = async (email: string, password: string) => {
     const response = await createUserWithEmailAndPassword(auth, email, password);
     console.log(response)
@@ -45,7 +47,9 @@ export const UserProvider = ({
   const loginWithGoogle = async () => {
     const responseGoogle = new GoogleAuthProvider();
     return await signInWithPopup(auth, responseGoogle)
-      .then(() => {
+      .then(() => 
+      {
+        closeAll();
         message({
           kind: 'success',
           title: 'Login Successful',

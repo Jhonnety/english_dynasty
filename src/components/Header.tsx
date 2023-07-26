@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import icon_englishdynasty from '../assets/icons/icon_englishdynasty.png'
 import { Link, NavLink } from 'react-router-dom';
 import { Profile } from '../profile/components/Profile';
 import { MenuProfile, ProfileAdapted } from '../profile/components';
+import { AuthContext, UserContext } from '../contexts';
 
 export const Header = () => {
 
+  const { openLogin } = useContext(AuthContext);
+  const { englishUser } = useContext(UserContext);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [screen, setScreen] = useState(true)
   const toggleNav = (responsiveNav: boolean = false) => {
@@ -29,7 +32,10 @@ export const Header = () => {
     };
   }, []);
 
-
+  const handleLoginButton = () => {
+    openLogin();
+    toggleNav();
+  }
   return (
     <nav className="navbar">
       <div className="navbar-brand">
@@ -41,7 +47,7 @@ export const Header = () => {
         </Link>
       </div>
       <button className="navbar-toggle" onClick={() => toggleNav()}>
-        <i className={`fa-solid navResponsiveButton ${isNavOpen ? ' fa-right-from-bracket' : 'fa-bars navbar-toggle-icon'}`}></i>
+        <i className={`navResponsiveButton ${isNavOpen ? 'fa-light fa-circle-xmark' : 'fa-solid fa-bars navbar-toggle-icon'}`}></i>
       </button>
       <ul className={`navbar-menu ${isNavOpen ? 'open' : ''} ${!screen ? 'fadeInDown' : ''}`}>
         {!screen && <ProfileAdapted />}
@@ -66,7 +72,8 @@ export const Header = () => {
         >
           <i className="fa-solid fa-bullseye-arrow"></i> Resources
         </NavLink>
-        {!screen && <><hr/><MenuProfile setIsSubMenuOpen={setIsNavOpen} /></>}
+        {!screen && !englishUser.uid && <button onClick={handleLoginButton} className='logInProfile'>Log in</button>}
+        {!screen && <><hr /><MenuProfile setIsSubMenuOpen={setIsNavOpen} /></>}
       </ul>
       <div className='searchContainer'>
         <input className='searchInput' placeholder='Search' />

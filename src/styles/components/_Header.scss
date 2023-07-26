@@ -70,7 +70,8 @@
     padding: 5px 10px;
     text-decoration: none;
     color: $title3;
-    i{
+
+    i {
       display: none;
     }
   }
@@ -97,6 +98,20 @@
   min-height: 100vh;
   height: fit-content;
   overflow: auto;
+
+  .logInProfile {
+    background: $title1;
+    height: 40px;
+    color: $white;
+    font-size: 1rem;
+    border: none;
+    width: 90%;
+    margin: 20px auto;
+    cursor: pointer;
+  }
+  .logInProfile:hover {
+    transform: scale(1.05);
+  }
 }
 
 .searchContainer {
@@ -157,7 +172,8 @@
       width: 90%;
       text-align: start;
       display: flex;
-      i{
+
+      i {
         display: block;
         margin-right: 5px;
         margin-top: 3px;
@@ -165,7 +181,7 @@
     }
 
     .active {
-      padding-bottom:0;
+      padding-bottom: 0;
       border-bottom: none;
       background-color: $soft_gray;
     }

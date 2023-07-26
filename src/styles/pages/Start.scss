@@ -62,6 +62,7 @@
             .randomGameButton {
                 background: $background3;
                 padding-left: 5%;
+
                 i {
                     left: 10%;
                 }
@@ -71,6 +72,7 @@
             .premiumButton {
                 background: $title1;
                 padding-right: 5%;
+
                 i {
                     right: 10%;
                 }
@@ -131,7 +133,7 @@
 
             .startText {
                 height: fit-content;
-                background: rgba(255, 255, 255, 0.644);
+                background: $transparent;
             }
         }
 

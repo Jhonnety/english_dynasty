@@ -7,6 +7,10 @@ type SetIsSubMenuOpen = React.Dispatch<React.SetStateAction<boolean>>;
 
 export const MenuProfile = ({ setIsSubMenuOpen }: { setIsSubMenuOpen: SetIsSubMenuOpen }) => {
     const { logOut, englishUser } = useContext(UserContext);
+    const handleLogOutButton = ()=>{
+        setIsSubMenuOpen(false)
+        logOut()
+    }
     return (
         <>
             {englishUser.uid &&
@@ -42,7 +46,7 @@ export const MenuProfile = ({ setIsSubMenuOpen }: { setIsSubMenuOpen: SetIsSubMe
                         to="/profile/comments"
                         onClick={() => setIsSubMenuOpen(false)}
                     ><i className="fa-regular fa-comment"></i> Comments</NavLink>
-                    <button onClick={logOut}>Log out</button>
+                    <button onClick={handleLogOutButton}>Log out</button>
                 </div>}
         </>
     )

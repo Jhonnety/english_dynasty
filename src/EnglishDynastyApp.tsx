@@ -1,4 +1,4 @@
-import { UserProvider } from './contexts/UserProvider'
+import { UserProvider, AuthPopUpContext } from './contexts'
 import { AppRouter } from './routers/AppRouter'
 
 
@@ -6,9 +6,11 @@ import { AppRouter } from './routers/AppRouter'
 function App() {
 
   return (
-    <UserProvider>
-      <AppRouter/>
-    </UserProvider>
+    <AuthPopUpContext>
+      <UserProvider>
+        <AppRouter />
+      </UserProvider>
+    </AuthPopUpContext>
   )
 }
 

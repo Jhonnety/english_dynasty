@@ -1,19 +1,14 @@
 import { useContext, useState } from 'react';
 import { UserContext } from '../../contexts/UserProvider';
-import { useNavigate } from 'react-router-dom';
 import { MenuProfile } from './MenuProfile';
-import { useLocation } from 'react-router-dom';
+import { AuthContext } from '../../contexts';
 
 export const Profile = () => {
   const { englishUser } = useContext(UserContext);
   
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
-  const navigate = useNavigate();
-
-  const logIn = () => {
-    navigate('/auth', { replace: true })
-  };
+  const { openLogin } = useContext(AuthContext);
 
   function getFirstName(fullName: string) {
     const nameParts = fullName.split(" ");
@@ -47,7 +42,7 @@ export const Profile = () => {
             }
           </div>
         </>
-        : useLocation().pathname != '/auth/login' && <button onClick={logIn} className='logInProfile'>Log in</button>
+        : <button onClick={openLogin} className='logInProfile'>Log in</button>
       }
     </div>
   )
