@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { AuthContext } from "../../contexts";
-import image_girl2 from '../../assets/images/image_girl2.jpg'
+import image_girl2 from '../../assets/images/image_girl2.png'
 import { Login } from "../components/Login";
 
 export const AuthPage = () => {

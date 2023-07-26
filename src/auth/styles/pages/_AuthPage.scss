@@ -26,11 +26,12 @@
     width: 40%;
     flex: 1;
     height: 100%;
+    background: $soft_gray;
 
     .authMessageContainer {
         position: absolute;
         width: 80%;
-        bottom: 10%;
+        top: 50%;
         margin: 0 10%;
         height: fit-content;
         background: $transparent;

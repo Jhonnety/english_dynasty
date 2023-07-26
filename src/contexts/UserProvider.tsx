@@ -12,7 +12,7 @@ import {
 import { useMessage } from '../hooks/useMessage';
 import { AuthContext } from '.';
 
-const { message } = useMessage();
+const { createMessage } = useMessage();
 interface UserContextProps {
   englishUser: EnglishUser;
   signUp: (email: string, password: string) => Promise<void>,
@@ -35,29 +35,39 @@ export const UserProvider = ({
 }: any) => {
   const [englishUser, setEnglishUser] = useState({});
   const { closeAll } = useContext(AuthContext);
-  
+
   const signUp = async (email: string, password: string) => {
     const response = await createUserWithEmailAndPassword(auth, email, password);
     console.log(response)
   }
   const login = async (email: string, password: string) => {
-    const response = await signInWithEmailAndPassword(auth, email, password);
-    console.log(response)
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        messageSuccessLogin();
+      })
+      .catch(({ code }) => {
+        if (code == 'auth/user-not-found' || code == 'auth/wrong-password') {
+          messageUserOrPasswordError();
+        }
+        else {
+          createMessage({
+            kind: 'error',
+            title: 'Login failed',
+            paragraph: "We couldn't log you in. Please check your credentials and try again.",
+            error: code
+          });
+        }
+      })
   }
   const loginWithGoogle = async () => {
     const responseGoogle = new GoogleAuthProvider();
     return await signInWithPopup(auth, responseGoogle)
-      .then(() => 
-      {
+      .then(() => {
         closeAll();
-        message({
-          kind: 'success',
-          title: 'Login Successful',
-          paragraph: 'Welcome back! You have been successfully logged in.',
-        });
+        messageSuccessLogin();
       })
       .catch((error) => {
-        message({
+        createMessage({
           kind: 'error',
           title: 'Login Failed',
           paragraph: "We couldn't log you in. Please check your credentials and try again.",
@@ -68,14 +78,14 @@ export const UserProvider = ({
   const logOut = async () => {
     await signOut(auth)
       .then(() => {
-        message({
+        createMessage({
           kind: 'success',
           title: 'Logged Out Successfully',
           paragraph: 'You have been successfully logged out. Thank you for using our services!',
         });
       })
       .catch((error) => {
-        message({
+        createMessage({
           kind: 'error',
           title: 'Logout Failed',
           paragraph: 'Sorry, we encountered an error while trying to log you out. Please try again later.',
@@ -87,7 +97,6 @@ export const UserProvider = ({
   useEffect(() => {
     const suscribed = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) {
-        console.log("There is not suscribed user")
         setEnglishUser({})
       } else {
         setEnglishUser({
@@ -107,3 +116,11 @@ export const UserProvider = ({
     </UserContext.Provider>
   );
 };
+function messageSuccessLogin() {
+  throw new Error('Function not implemented.');
+}
+
+function messageUserOrPasswordError() {
+  throw new Error('Function not implemented.');
+}
+

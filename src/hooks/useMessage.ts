@@ -5,7 +5,7 @@ import { MessageModel } from '../models'
 
 export const useMessage = () => {
 
-  const message = (message: MessageModel) => {
+  const createMessage = (message: MessageModel) => {
     if (message.kind == 'success')
       Swal.fire({
         title: message.title,
@@ -38,7 +38,7 @@ export const useMessage = () => {
         showConfirmButton: true,
         confirmButtonText: 'Exit',
         color: "#141106",
-        footer:message.error,
+        footer: message.error,
         customClass: {
           confirmButton: 'ButtonMessage',
           title: 'errorMessageTitle',
@@ -47,7 +47,24 @@ export const useMessage = () => {
       })
   }
 
+  const messageSuccessLogin = () => {
+    createMessage({
+      kind: 'success',
+      title: 'Login successful',
+      paragraph: 'Welcome back! You have been successfully logged in.',
+    });
+  }
+
+  const messageUserOrPasswordError = () => {
+    createMessage({
+      kind: 'error',
+      title: 'Login failed',
+      paragraph: 'User not found or the password is wrong.',
+    });
+  }
   return {
-    message
+    createMessage,
+    messageSuccessLogin,
+    messageUserOrPasswordError
   }
 }

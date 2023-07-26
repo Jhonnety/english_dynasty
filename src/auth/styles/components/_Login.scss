@@ -70,7 +70,7 @@
 .formControlLogin {
     width: 100%;
     height: 40px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 
     i {
         width: 40px;
@@ -87,6 +87,13 @@
         font-size: 1rem;
     }
 }
+.errorFormLogin{
+    color: $title2;
+    font-size: 1rem;
+    width: 100%;
+    height: fit-content;
+    text-align: right;
+}
 
 .forgotPasswordLink {
     color: $title3;
@@ -94,6 +101,10 @@
     font-weight: bold;
     text-decoration: none;
     font-size: 1rem;
+}
+.forgotPasswordLink:focus{
+    border: none;
+    outline: none;
 }
 
 .forgotPasswordLink:hover {
@@ -133,7 +144,7 @@
 }
 
 .exitLogin:hover {
-    color: $title2;
+    transform: translateX(50%) scale(1.05);
 }
 
 @media (max-width: 700px) {
