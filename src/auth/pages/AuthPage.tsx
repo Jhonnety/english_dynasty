@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { AuthContext } from "../../contexts";
 import image_boy1 from '../../assets/images/image_boy1.png'
-import { Login } from "../components/Login";
-import { SignUp } from "../components/SignUp";
+import { SignUp , ForgotPassword, Login} from "../components";
+
 
 
 export const AuthPage = () => {
@@ -21,10 +21,9 @@ export const AuthPage = () => {
                             </div>
                             <img src={image_boy1} alt="image_girl2" className="imageGirl2" />
                         </div>
-
                         {isAuthOpen.login && <Login />}
-
                         {isAuthOpen.signUp && <SignUp />}
+                        {isAuthOpen.forgotPassword && <ForgotPassword/>}
                     </div>
                 </>
             )}

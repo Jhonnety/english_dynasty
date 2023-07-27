@@ -95,7 +95,7 @@ export const SignUp = () => {
               onChange={onInputChange}
               type="password"
               className="inputLoginForm"
-              placeholder="Password" />
+              placeholder="Password (6 characters minimum)" />
           </div>
           {errorForm.passwordError && <span className="errorFormLogin">{errorForm.passwordError}</span>}
           <div className="formControlLogin">

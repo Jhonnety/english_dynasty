@@ -8,7 +8,7 @@ import icon_facebook from "../../assets/icons/icon_facebook.png";
 
 export const Login = () => {
   const { login, loginWithGoogle, loginWithFacebook } = useContext(UserContext);
-  const { closeAll } = useContext(AuthContext);
+  const { closeAll, openForgotPassword } = useContext(AuthContext);
   const { email, password, onInputChange, onResetForm } = useForm({
     email: "", password: ""
   })
@@ -94,7 +94,7 @@ export const Login = () => {
         {errorForm.passwordError != '' && <span className="errorFormLogin">{errorForm.passwordError}</span>}
         <button type="submit" className="submitLoginButton">Login</button>
       </form>
-      <a className="forgotPasswordLink">Forgot password?</a>
+      <a onClick={openForgotPassword} className="forgotPasswordLink">Forgot password?</a>
       <a onClick={openSignUp} className="signUpLink">Not a member yet? <b>Sign up</b></a>
     </div>
   )

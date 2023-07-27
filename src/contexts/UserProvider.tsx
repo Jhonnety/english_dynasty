@@ -8,19 +8,22 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
-  FacebookAuthProvider
+  FacebookAuthProvider,
+  sendEmailVerification,
+  sendPasswordResetEmail
 } from 'firebase/auth'
 import { useMessage } from '../hooks/useMessage';
 import { AuthContext } from '.';
 
-const { createMessage, messageSuccessLogin, messageUserOrPasswordError } = useMessage();
+const { createMessage, messageSuccessLogin, messageUserOrPasswordError, sendVerificationEmail } = useMessage();
 interface UserContextProps {
   englishUser: EnglishUser;
   signUp: (email: string, password: string, onResetForm: () => void) => Promise<void>,
   login: (email: string, password: string, onResetForm: () => void) => Promise<void>,
   loginWithGoogle: any,
   loginWithFacebook: any,
-  logOut: () => Promise<void>
+  logOut: () => Promise<void>,
+  resetPassword: (email: string, onResetForm: ()=> void) => Promise<void>
 }
 
 
@@ -30,7 +33,8 @@ export const UserContext = createContext<UserContextProps>({
   login: () => Promise.resolve(),
   loginWithGoogle: () => { },
   logOut: () => Promise.resolve(),
-  loginWithFacebook: () => { }
+  loginWithFacebook: () => { },
+  resetPassword: () => Promise.resolve()
 });
 
 export const UserProvider = ({
@@ -40,39 +44,40 @@ export const UserProvider = ({
   const { closeAll } = useContext(AuthContext);
 
   const signUp = async (email: string, password: string, onResetForm: () => void) => {
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
-        closeAll();
-        createMessage({
-          kind: 'success',
-          title: 'Signed Up Successfully',
-          paragraph: 'You have been successfully signed up. Thank you for using our services!',
-        });
-      })
-      .catch(({ code }) => {
-        onResetForm();
-        if (code == 'auth/email-already-in-use') {
-          createMessage({
-            kind: 'error',
-            title: 'Sign up failed',
-            paragraph: "The email is already in use. You can login! ",
-          });
-        }
-        else {
-          createMessage({
-            kind: 'error',
-            title: 'Login failed',
-            paragraph: "We couldn't log you in. Please check your credentials and try again.",
-          });
-        }
-      });
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await sendEmailVerification(userCredential.user);
+      closeAll();
+      onResetForm();
+      sendVerificationEmail(email);
+    } catch (error: any) {
+      onResetForm();
 
-  }
+      if (error.code === 'auth/email-already-in-use') {
+        createMessage({
+          kind: 'error',
+          title: 'Sign up failed',
+          paragraph: "The email is already in use. You can login!",
+        });
+      } else {
+        createMessage({
+          kind: 'error',
+          title: 'Sign up failed',
+          paragraph: "We couldn't sign you up. Please check your credentials and try again.",
+        });
+      }
+    }
+  };
   const login = async (email: string, password: string, onResetForm: () => void) => {
     return await signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then(({ user }) => {
         closeAll();
-        messageSuccessLogin();
+        if (user.emailVerified) {
+          messageSuccessLogin();
+        }
+        else {
+          sendVerificationEmail(user.email + "")
+        }
       })
       .catch(({ code }) => {
         onResetForm();
@@ -120,6 +125,35 @@ export const UserProvider = ({
         });
       });
   }
+  const resetPassword = async (email: string, onResetForm: () => void) => {
+    await sendPasswordResetEmail(auth, email)
+      .then(() => {
+        onResetForm();
+        createMessage({
+          kind: 'success',
+          title: 'Password Reset Email Sent',
+          paragraph: "We've successfully sent a password reset email to the provided email address. Please check your inbox for further instructions on how to reset your password. Thank you!",
+        });
+      })
+      .catch(({ code }) => {
+        onResetForm();
+        if (code == "auth/user-not-found") {
+          createMessage({
+            kind: 'error',
+            title: 'Email Not Found',
+            paragraph: "We couldn't find any account associated with the provided email address. Please make sure you have entered the correct email or consider creating a new account if you haven't already.",
+          });
+        }
+        else {
+          createMessage({
+            kind: 'error',
+            title: 'Password Reset Email Failed',
+            paragraph: "We encountered an error while attempting to send the password reset email. Please try again later or contact our support team for assistance. Our team is here to help you regain access to your account as quickly as possible. We apologize for any inconvenience this may cause.",
+            error: code
+          });
+        }
+      });
+  }
   const logOut = async () => {
     await signOut(auth)
       .then(() => {
@@ -140,23 +174,32 @@ export const UserProvider = ({
   };
 
   useEffect(() => {
-    const suscribed = onAuthStateChanged(auth, (currentUser) => {
+    const suscribed = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
-        setEnglishUser({})
+        setEnglishUser({});
       } else {
-        setEnglishUser({
-          name: currentUser.displayName,
-          email: currentUser.email,
-          uid: currentUser.uid,
-          url: currentUser.photoURL
-        })
+        if (currentUser.emailVerified) {
+          setEnglishUser({
+            name: currentUser.displayName,
+            email: currentUser.email,
+            uid: currentUser.uid,
+            url: currentUser.photoURL
+          });
+        } else {
+          try {
+            await sendEmailVerification(currentUser);
+            sendVerificationEmail(currentUser.email + "");
+          } catch (error) {
+          }
+
+        }
       }
     })
 
     return () => suscribed()
   }, [])
   return (
-    <UserContext.Provider value={{ englishUser, signUp, login, loginWithGoogle, logOut, loginWithFacebook }}>
+    <UserContext.Provider value={{ englishUser, signUp, login, loginWithGoogle, logOut, loginWithFacebook, resetPassword }}>
       {children}
     </UserContext.Provider>
   );
