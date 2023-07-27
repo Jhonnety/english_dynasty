@@ -1,1 +1,1 @@
-export * from "./termsAndConditions.ts";
+export * from "./TermsAndConditions.ts";
