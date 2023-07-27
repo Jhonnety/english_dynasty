@@ -28,6 +28,11 @@ export const Profile = () => {
     setIsSubMenuOpen(!isSubMenuOpen);
   };
 
+  const handleNameProfile = (name:any) =>{
+    if(name == null)  return "my profile"
+    else return getFirstName(name)
+  }
+
   return (
     <div className='userProfile'>
       {englishUser.uid
@@ -35,7 +40,7 @@ export const Profile = () => {
         <>
           <div className='subMenuProfile' onMouseLeave={subMenuClose}
           >
-            <h1>Hello, <button onMouseOver={subMenuOpen} onClick={handleMenuProfile}><b>{getFirstName(englishUser.name + "")} <i className="fa-solid fa-angle-down"></i></b></button></h1>
+            <h1>Hello, <button onMouseOver={subMenuOpen} onClick={handleMenuProfile}><b>{handleNameProfile(englishUser.name)} <i className="fa-solid fa-angle-down"></i></b></button></h1>
             <img src={englishUser.url} />
             {
               isSubMenuOpen && <MenuProfile setIsSubMenuOpen={setIsSubMenuOpen} />

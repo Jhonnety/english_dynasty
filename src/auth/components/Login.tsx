@@ -38,17 +38,28 @@ export const Login = () => {
     event.preventDefault();
     setTouchedForm(true)
 
-    if (!touchedForm && (errorForm.emailError != '' || errorForm.passwordError != '')) {
+    if (errorForm.emailError != '' || errorForm.passwordError != '') {
       createMessage({
         kind: 'error',
         title: 'Login Failed',
         paragraph: 'Check the fields'
       });
     }
-    else {
-      login(email, password);
-      onResetForm();
+    else if (!touchedForm && (email == "" || password == "")) {
+      createMessage({
+        kind: 'error',
+        title: 'Login Failed',
+        paragraph: 'The fields are required'
+      });
     }
+    else {
+      login(email, password, resetLogin);
+    }
+  }
+  const resetLogin = () => {
+    onResetForm();
+    setTouchedForm(false);
+    setErrorForm({ emailError: '', passwordError: '' });
   }
   return (
     <div className="loginContainer  fadeInRight ">

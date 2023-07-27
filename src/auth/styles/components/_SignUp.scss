@@ -1,0 +1,29 @@
+.termsAndConditionsLink{
+    font-size: 1rem;
+    cursor: pointer;
+    margin: 10px 0 ;
+}
+.termsAndConditionsLink:hover{
+    color: $title2;
+}
+.termsAndConditionsTextArea{
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 40%;
+    max-height: 400px;
+    font-size: 1rem;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.termsAndConditionsButton{
+    width: 20%;
+    margin-left: 80%;
+    background: none;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+}
+.termsAndConditionsButton:hover{
+    color: $title2;
+}
