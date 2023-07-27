@@ -2,23 +2,27 @@ import { createContext, useState, ReactNode } from 'react';
 
 interface AuthData {
     login: boolean,
-    singIn: boolean
+    signUp: boolean,
+    forgotPassword: boolean
 }
 interface AuthContextData {
     isAuthOpen: AuthData;
     openLogin: () => void;
-    openSignIn: () => void;
+    openSignUp: () => void;
+    openForgotPassword: () => void;
     closeAll: () => void;
 }
 
 export const AuthContext = createContext<AuthContextData>({
     isAuthOpen: {
         login: false,
-        singIn: false
+        signUp: false,
+        forgotPassword: false
     },
     openLogin: () => { },
-    openSignIn: () => { },
-    closeAll: () => { }
+    openSignUp: () => { },
+    closeAll: () => { },
+    openForgotPassword: () => { }
 });
 
 
@@ -29,31 +33,42 @@ interface AuthPopUpContext {
 export const AuthPopUpContext = ({ children }: AuthPopUpContext) => {
     const [isAuthOpen, setIsAuthOpen] = useState({
         login: false,
-        singIn: false
+        signUp: false,
+        forgotPassword: false
     });
 
     const openLogin = () => {
         setIsAuthOpen({
             login: true,
-            singIn: false
+            signUp: false,
+            forgotPassword: false
         });
     };
 
-    const openSignIn = () => {
+    const openSignUp = () => {
         setIsAuthOpen({
             login: false,
-            singIn: true
+            signUp: true,
+            forgotPassword: false
         });
     };
+    const openForgotPassword = () => {
+        setIsAuthOpen({
+            login: false,
+            signUp: false,
+            forgotPassword: true
+        });
+    }
 
     const closeAll = () => {
         setIsAuthOpen({
             login: false,
-            singIn: false
+            signUp: false,
+            forgotPassword: false
         });
     }
     return (
-        <AuthContext.Provider value={{ isAuthOpen, openLogin, openSignIn, closeAll }}>
+        <AuthContext.Provider value={{ isAuthOpen, openLogin, openSignUp, openForgotPassword, closeAll }}>
             {children}
         </AuthContext.Provider>
     );

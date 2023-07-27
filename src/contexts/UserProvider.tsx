@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   signOut,
   onAuthStateChanged,
+  FacebookAuthProvider
 } from 'firebase/auth'
 import { useMessage } from '../hooks/useMessage';
 import { AuthContext } from '.';
@@ -18,6 +19,7 @@ interface UserContextProps {
   signUp: (email: string, password: string) => Promise<void>,
   login: (email: string, password: string) => Promise<void>,
   loginWithGoogle: any,
+  loginWithFacebook: any,
   logOut: () => Promise<void>
 }
 
@@ -28,6 +30,7 @@ export const UserContext = createContext<UserContextProps>({
   login: () => Promise.resolve(),
   loginWithGoogle: () => { },
   logOut: () => Promise.resolve(),
+  loginWithFacebook: () => { }
 });
 
 export const UserProvider = ({
@@ -66,12 +69,28 @@ export const UserProvider = ({
         closeAll();
         messageSuccessLogin();
       })
-      .catch((error) => {
+      .catch(({code}) => {
         createMessage({
           kind: 'error',
           title: 'Login Failed',
           paragraph: "We couldn't log you in. Please check your credentials and try again.",
-          error: error
+          error: code
+        });
+      });
+  }
+  const loginWithFacebook = async () => {
+    const responseFacebook = new FacebookAuthProvider();
+    return await signInWithPopup(auth, responseFacebook)
+      .then(() => {
+        closeAll();
+        messageSuccessLogin();
+      })
+      .catch(({ code }) => {
+        createMessage({
+          kind: 'error',
+          title: 'Login Failed',
+          paragraph: "We couldn't log you in. Please check your credentials and try again.",
+          error: code
         });
       });
   }
@@ -84,12 +103,12 @@ export const UserProvider = ({
           paragraph: 'You have been successfully logged out. Thank you for using our services!',
         });
       })
-      .catch((error) => {
+      .catch(({ code }) => {
         createMessage({
           kind: 'error',
           title: 'Logout Failed',
           paragraph: 'Sorry, we encountered an error while trying to log you out. Please try again later.',
-          error: error
+          error: code
         });
       });
   };
@@ -111,7 +130,7 @@ export const UserProvider = ({
     return () => suscribed()
   }, [])
   return (
-    <UserContext.Provider value={{ englishUser, signUp, login, loginWithGoogle, logOut }}>
+    <UserContext.Provider value={{ englishUser, signUp, login, loginWithGoogle, logOut, loginWithFacebook }}>
       {children}
     </UserContext.Provider>
   );

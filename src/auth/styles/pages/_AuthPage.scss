@@ -26,17 +26,18 @@
     width: 40%;
     flex: 1;
     height: 100%;
-    background: $soft_gray;
+    background: #FBF9FA;
 
     .authMessageContainer {
         position: absolute;
         width: 80%;
-        top: 50%;
+        bottom: 10%;
         margin: 0 10%;
         height: fit-content;
         background: $transparent;
         padding: 5px;
         box-sizing: border-box;
+        z-index: 2;
 
         h1 {
             font-size: 1.5rem;
@@ -47,14 +48,17 @@
         p {
             font-size: 1rem;
             color: $title3;
-            margin: 20px 0 10px 0
+            margin: 20px 0 10px 0;
         }
 
     }
 
     .imageGirl2 {
-        height: 100%;
+        position: absolute;
+        bottom: 0;
+        height: auto;
         width: 100%;
+        max-height: 100%;
     }
 }
 
@@ -79,6 +83,9 @@
             background: none;
             top: 8%;
             height: fit-content;
+            p {
+                margin:0 0 10px 0;
+            }
         }
 
         .imageGirl2 {
