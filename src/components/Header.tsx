@@ -16,16 +16,17 @@ export const Header = () => {
     else setIsNavOpen(!isNavOpen);
   };
 
+  const handleResize = () => {
+    if (window.innerWidth > 870) {
+      setIsNavOpen(false);
+      setScreen(true);
+    }
+    else {
+      setScreen(false);
+    }
+  };
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 870) {
-        setIsNavOpen(false);
-        setScreen(true);
-      }
-      else {
-        setScreen(false);
-      }
-    };
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);

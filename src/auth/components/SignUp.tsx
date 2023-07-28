@@ -70,10 +70,10 @@ export const SignUp = () => {
       <h1 className="signUpTitle">Ready to get started? <b>Sign up for your account.</b></h1>
       {isOpenTerms.terms
         ?
-        <>
+        <div className="textAreaContainer">
           <textarea readOnly className="termsAndConditionsTextArea fadeInRight" value={TERMS_AND_CONDITIONS}></textarea>
           <button onClick={() => setIsOpenTerms({ terms: false, animation: false })} className="termsAndConditionsButton"><i className="fa-solid fa-arrow-left"></i> Back</button>
-        </>
+        </div>
         :
         <form onSubmit={handleLogin} className={`loginForm ${!isOpenTerms.animation ? 'fadeInRight' : ''}`}>
           <div className="formControlLogin">
