@@ -14,6 +14,7 @@ import {
 } from 'firebase/auth'
 import { useMessage } from '../hooks/useMessage';
 import { AuthContext } from '.';
+import { ButtonLoadingContext } from './ButtonLoadingProvider';
 
 const { createMessage, messageSuccessLogin, messageUserOrPasswordError, sendVerificationEmail } = useMessage();
 interface UserContextProps {
@@ -23,7 +24,7 @@ interface UserContextProps {
   loginWithGoogle: any,
   loginWithFacebook: any,
   logOut: () => Promise<void>,
-  resetPassword: (email: string, onResetForm: ()=> void) => Promise<void>
+  resetPassword: (email: string, onResetForm: () => void) => Promise<void>
 }
 
 
@@ -42,14 +43,17 @@ export const UserProvider = ({
 }: any) => {
   const [englishUser, setEnglishUser] = useState({});
   const { closeAll } = useContext(AuthContext);
+  const { isNotLoading, isLoading } = useContext(ButtonLoadingContext);
 
   const signUp = async (email: string, password: string, onResetForm: () => void) => {
+    isLoading();
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       await sendEmailVerification(userCredential.user);
       closeAll();
       onResetForm();
       sendVerificationEmail(email);
+      isNotLoading();
     } catch (error: any) {
       onResetForm();
 
@@ -66,9 +70,11 @@ export const UserProvider = ({
           paragraph: "We couldn't sign you up. Please check your credentials and try again.",
         });
       }
+      isNotLoading();
     }
   };
   const login = async (email: string, password: string, onResetForm: () => void) => {
+    isLoading();
     return await signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         closeAll();
@@ -78,6 +84,7 @@ export const UserProvider = ({
         else {
           sendVerificationEmail(user.email + "")
         }
+        isNotLoading();
       })
       .catch(({ code }) => {
         onResetForm();
@@ -91,14 +98,17 @@ export const UserProvider = ({
             paragraph: "We couldn't log you in. Please check your credentials and try again.",
           });
         }
+        isNotLoading();
       })
   }
   const loginWithGoogle = async () => {
+    isLoading();
     const responseGoogle = new GoogleAuthProvider();
     return await signInWithPopup(auth, responseGoogle)
       .then(() => {
         closeAll();
         messageSuccessLogin();
+        isNotLoading();
       })
       .catch(({ code }) => {
         createMessage({
@@ -107,14 +117,17 @@ export const UserProvider = ({
           paragraph: "We couldn't log you in. Please check your credentials and try again.",
           error: code
         });
+        isNotLoading();
       });
   }
   const loginWithFacebook = async () => {
+    isLoading();
     const responseFacebook = new FacebookAuthProvider();
     return await signInWithPopup(auth, responseFacebook)
       .then(() => {
         closeAll();
         messageSuccessLogin();
+        isNotLoading();
       })
       .catch(({ code }) => {
         createMessage({
@@ -123,9 +136,11 @@ export const UserProvider = ({
           paragraph: "We couldn't log you in. Please check your credentials and try again.",
           error: code
         });
+        isNotLoading();
       });
   }
   const resetPassword = async (email: string, onResetForm: () => void) => {
+    isLoading();
     await sendPasswordResetEmail(auth, email)
       .then(() => {
         onResetForm();
@@ -134,6 +149,7 @@ export const UserProvider = ({
           title: 'Password Reset Email Sent',
           paragraph: "We've successfully sent a password reset email to the provided email address. Please check your inbox for further instructions on how to reset your password. Thank you!",
         });
+        isNotLoading();
       })
       .catch(({ code }) => {
         onResetForm();
@@ -152,6 +168,7 @@ export const UserProvider = ({
             error: code
           });
         }
+        isNotLoading();
       });
   }
   const logOut = async () => {
@@ -162,6 +179,7 @@ export const UserProvider = ({
           title: 'Logged Out Successfully',
           paragraph: 'You have been successfully logged out. Thank you for using our services!',
         });
+        isNotLoading();
       })
       .catch(({ code }) => {
         createMessage({
@@ -170,6 +188,7 @@ export const UserProvider = ({
           paragraph: 'Sorry, we encountered an error while trying to log you out. Please try again later.',
           error: code
         });
+        isNotLoading();
       });
   };
 

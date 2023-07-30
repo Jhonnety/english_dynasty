@@ -5,10 +5,13 @@ import { AuthContext } from "../../contexts";
 import { useMessage } from "../../hooks/useMessage";
 import icon_google from "../../assets/icons/icon_google.png";
 import icon_facebook from "../../assets/icons/icon_facebook.png";
+import { Loading } from "../../components";
+import { ButtonLoadingContext } from "../../contexts/ButtonLoadingProvider";
 
 export const Login = () => {
   const { login, loginWithGoogle, loginWithFacebook } = useContext(UserContext);
   const { closeAll, openForgotPassword } = useContext(AuthContext);
+  const { loading } = useContext(ButtonLoadingContext);
   const { email, password, onInputChange, onResetForm } = useForm({
     email: "", password: ""
   })
@@ -65,8 +68,8 @@ export const Login = () => {
     <div className="loginContainer  fadeInRight ">
       <button onClick={closeAll} className="exitLogin"><i className="fa-light fa-circle-xmark"></i></button>
       <div className="loginProvidersContainer">
-        <button type="button" onClick={loginWithFacebook} className="otherProviderAuthButton"><img src={icon_facebook} /> <h3>Continue with Facebook</h3></button>
-        <button type="button" onClick={loginWithGoogle} className="otherProviderAuthButton"><img src={icon_google} /> <h3>Continue with Google</h3></button>
+        <button type="button" onClick={loginWithFacebook} className="otherProviderAuthButton" disabled={loading}><img src={icon_facebook} /> <h3>Continue with Facebook</h3></button>
+        <button type="button" onClick={loginWithGoogle} className="otherProviderAuthButton" disabled={loading}><img src={icon_google} /> <h3>Continue with Google</h3></button>
       </div>
       <div className="lineOr"><h1>or</h1></div>
       <form onSubmit={handleLogin} className="loginForm">
@@ -92,7 +95,7 @@ export const Login = () => {
             placeholder="Password" />
         </div>
         {errorForm.passwordError != '' && <span className="errorFormLogin">{errorForm.passwordError}</span>}
-        <button type="submit" className="submitLoginButton">Login</button>
+        <button type="submit" className="submitLoginButton" disabled={loading}>{ loading ? <Loading/> : 'Loading'}</button>
       </form>
       <a onClick={openForgotPassword} className="forgotPasswordLink">Forgot password?</a>
       <a onClick={openSignUp} className="signUpLink">Not a member yet? <b>Sign up</b></a>

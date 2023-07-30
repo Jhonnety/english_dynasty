@@ -2,6 +2,8 @@ import { FormEvent, useContext } from "react";
 import { AuthContext, UserContext } from "../../contexts";
 import { useForm } from "../../hooks/useForm";
 import { useMessage } from "../../hooks/useMessage";
+import { ButtonLoadingContext } from "../../contexts/ButtonLoadingProvider";
+import { Loading } from "../../components";
 
 
 export const ForgotPassword = () => {
@@ -11,7 +13,8 @@ export const ForgotPassword = () => {
     const { email, onInputChange, onResetForm } = useForm({
         email: "", password: "", confirmPassword: ""
     })
-
+    const { loading } = useContext(ButtonLoadingContext);
+    
     const handleForgotPassword = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (email == '') {
@@ -47,8 +50,7 @@ export const ForgotPassword = () => {
                         className="inputLoginForm"
                         placeholder="Email address" />
                 </div>
-                {false && <span className="errorFormLogin">{/* errorForm.emailError */}</span>}
-                <button type="submit" className="submitLoginButton">Send Reset Email</button>
+                <button type="submit" className="submitLoginButton" disabled={loading}>{ loading ? <Loading/> : 'Send Reset Email'}</button>
             </form>
 
             <a onClick={openLogin} className="signUpLink">Continue to <b>Login</b></a>

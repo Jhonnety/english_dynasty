@@ -1,12 +1,15 @@
 import { useContext } from 'react'
 import { UserContext } from '../../contexts/UserProvider';
 import { NavLink } from 'react-router-dom';
+import { ButtonLoadingContext } from '../../contexts/ButtonLoadingProvider';
+import { Loading } from '../../components';
 
 
 type SetIsSubMenuOpen = React.Dispatch<React.SetStateAction<boolean>>;
 
 export const MenuProfile = ({ setIsSubMenuOpen }: { setIsSubMenuOpen: SetIsSubMenuOpen }) => {
     const { logOut, englishUser } = useContext(UserContext);
+    const { loading } = useContext(ButtonLoadingContext);
     const handleLogOutButton = ()=>{
         setIsSubMenuOpen(false)
         logOut()
@@ -46,7 +49,7 @@ export const MenuProfile = ({ setIsSubMenuOpen }: { setIsSubMenuOpen: SetIsSubMe
                         to="/profile/comments"
                         onClick={() => setIsSubMenuOpen(false)}
                     ><i className="fa-regular fa-comment"></i> Comments</NavLink>
-                    <button onClick={handleLogOutButton}>Log out</button>
+                    <button onClick={handleLogOutButton}  disabled={loading}>{ loading ? <Loading/> : 'Log out'}</button>
                 </div>}
         </>
     )

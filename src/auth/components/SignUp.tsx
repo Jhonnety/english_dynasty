@@ -4,6 +4,8 @@ import { UserContext } from "../../contexts/UserProvider";
 import { AuthContext } from "../../contexts";
 import { useMessage } from "../../hooks/useMessage";
 import { TERMS_AND_CONDITIONS } from "../../utils";
+import { ButtonLoadingContext } from "../../contexts/ButtonLoadingProvider";
+import { Loading } from "../../components";
 
 export const SignUp = () => {
   const { email, password, confirmPassword, onInputChange, onResetForm } = useForm({
@@ -15,7 +17,8 @@ export const SignUp = () => {
   const { closeAll, openLogin } = useContext(AuthContext);
   const [touchedForm, setTouchedForm] = useState(false)
   const [errorForm, setErrorForm] = useState({ emailError: '', passwordError: '', confirmPasswordError: '' });
-
+  const { loading } = useContext(ButtonLoadingContext);
+  
   useEffect(() => {
     if (touchedForm) {
       let emailError: string = "";
@@ -110,7 +113,7 @@ export const SignUp = () => {
           </div>
           {errorForm.confirmPasswordError && <span className="errorFormLogin">{errorForm.confirmPasswordError}</span>}
           <a onClick={() => setIsOpenTerms({ terms: true, animation: true })} className="termsAndConditionsLink">Terms and conditions.</a>
-          <button type="submit" className="submitLoginButton">Sign Up</button>
+          <button type="submit" className="submitLoginButton" disabled={loading}>{ loading ? <Loading/> : 'Sign Up'}</button>
         </form>
       }
       <a onClick={openLogin} className="signUpLink">Already have an account? <b>Login</b></a>
