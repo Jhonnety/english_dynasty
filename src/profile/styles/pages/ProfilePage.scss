@@ -1,0 +1,40 @@
+.profilePageContainer {
+    background-color: $soft_gray;
+    width: 100%;
+    height: auto;
+    min-height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: row;
+    padding: 5vw 8%;
+    box-sizing: border-box;
+
+    .profileUserColumn {
+        width: 30%;
+        height: auto;
+        min-height: calc(100vh - 70px);
+        background: none;
+    }
+
+    .infoUserColumn {
+        margin-left:2%;
+        width: 68%;
+        height: fit-content;
+        min-height: calc(100vh - 70px);
+        background: blue;
+        display: flex;
+        flex-direction: column;
+    }
+}
+@media (max-width:$adaptation) {
+    .profilePageContainer {
+        flex-direction: column;
+
+        .profileUserColumn {
+            width: 100%;
+        }
+    
+        .infoUserColumn {
+            width: 100%;
+        }
+    }
+}

@@ -1,0 +1,93 @@
+.profileImageContainer {
+    width: 100%;
+    background: $white;
+    background-repeat: no-repeat;
+    height: fit-content;
+
+    .backgroundContainer {
+        background-color: $title1 ;
+        width: 90%;
+        height: 100px;
+        margin: 0 auto;
+        border-radius: 0 0 19px 19px;
+
+        div {
+            background-color: $white;
+            width: 90%;
+            height: 85%;
+            margin: 0 auto;
+            border-radius: 0 0 19px 19px;
+        }
+    }
+
+    .imageProfile {
+        background-color: $white;
+        border: 1px solid $soft_gray;
+        width: 40%;
+        max-width: 200px;
+        aspect-ratio: 1 / 1;
+        border-radius: 50%;
+        margin: 0 auto;
+        transform: translateY(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+            width: 95%;
+            height: 95%;
+            border-radius: 50%;
+        }
+
+        .changeProfileButton {
+            position: absolute;
+            background: none;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            background-color: $white;
+            height: 35px;
+            width: 35px;
+            border: 1px solid $title1;
+            border-radius: 50%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            right: 10%;
+            bottom: 2%;
+            color: $title1;
+        }
+
+        .changeProfileButton:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    .nameProfile {
+        width: 80%;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 2rem;
+        transform: translateY(-50%);
+    }
+
+    .subcriptionProfile {
+        transform: translateY(-100%);
+        width: 80%;
+        text-align: center;
+        margin: 0 auto;
+        font-size: 1rem;
+        color: $title1;
+    }
+}
+
+.changeProfileImageContainer {
+    transform: translateY(-40%);
+    background-color: red;
+    width: 100%;
+    left: 0;
+    min-height: 150px;
+    height: fit-content;
+}

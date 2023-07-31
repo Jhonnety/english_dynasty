@@ -1,0 +1,46 @@
+.creditUserContainer {
+    background: $white;
+    margin-top: 2vw;
+    padding: 20px;
+    box-sizing: border-box;
+
+    .credits {
+        font-size: 2rem;
+    }
+
+    .nextCredit {
+        font-size: 2rem;
+        color: $title1;
+    }
+
+    .newCredits {
+        margin-top: 20px;
+        font-size: 1rem;
+        text-align: justify;
+    }
+
+    .whatCredits {
+        margin-top: 20px;
+        cursor: pointer;
+        text-align: center;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        i{
+            margin-right: 5px;
+        }
+    }
+    .whatCredits:hover{
+        color: $title2;
+    }
+
+
+
+    .whatCreditsDescription {
+        margin-top: 20px;
+        font-size: 1rem;
+        text-align: justify;
+    }
+
+}
