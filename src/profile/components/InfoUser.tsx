@@ -2,9 +2,16 @@
 import { ChangeEvent, useContext } from "react";
 import { useForm } from "../../hooks/useForm"
 import { UserContext } from "../../contexts";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase/Initialization";
+import { useMessage } from "../../hooks/useMessage";
+import { ButtonLoadingContext } from "../../contexts/ButtonLoadingProvider";
+import { Loading } from "../../components";
 
 export const InfoUser = () => {
     const { englishUser } = useContext(UserContext);
+    const { createMessage, savedChanges } = useMessage();
+    const { isNotLoading, isLoading, loading } = useContext(ButtonLoadingContext);
     const { fullName, onInputChange, email, englishLvl, country, interests } = useForm({
         fullName: englishUser.fullName,
         email: englishUser.email,
@@ -26,7 +33,32 @@ export const InfoUser = () => {
         else onInputChange(event)
     }
 
-    const prob = async () => {
+    const handleUpdateUser = async () => {
+        isLoading();
+        const idForm = englishUser.idForm + "";
+        const usersRef = doc(db, "users", idForm);
+
+        await updateDoc(usersRef, {
+            ...englishUser,
+            fullName,
+            englishLvl,
+            country,
+            interests
+
+        }).then(() => {
+            savedChanges()
+            isNotLoading();
+        })
+            .catch((e) => {
+                createMessage({
+                    kind: 'error',
+                    title: 'Error Saving Changes',
+                    paragraph: 'We apologize, but there was an error while attempting to save your changes. Please check your internet connection and try again later.',
+                    error: e
+                });
+                isNotLoading();
+            })
+
     }
     return (
         <div className="infoUserContainer">
@@ -53,8 +85,9 @@ export const InfoUser = () => {
                 </li>
             </ol>
             <div className="infoUserButtonsContainer">
-                <button onClick={prob} className="saveInforUserChangesButton"><i className="fa-solid fa-floppy-disk"></i> Save changes</button>
+                <button onClick={handleUpdateUser} className="saveInforUserChangesButton" disabled={loading}>{loading ? <Loading /> : <><i className="fa-solid fa-floppy-disk"></i> Save changes</>}</button>
             </div>
+
         </div>
     )
 }

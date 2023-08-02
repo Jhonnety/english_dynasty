@@ -80,7 +80,6 @@ export const UserProvider = ({
       .then(({ user }) => {
         closeAll();
         if (user.emailVerified) {
-          createUserInfo(email);
           messageSuccessLogin();
         }
         else {
@@ -103,53 +102,12 @@ export const UserProvider = ({
         isNotLoading();
       })
   }
-  const createUserInfo = async (email: string, fullName: string = "") => {
-    const usersRef = collection(db, "users");
-
-    const q = query(usersRef, where("email", "==", email));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      try {
-        const docRef = await addDoc(collection(db, "users"), {
-          country: "",
-          email: email,
-          englishLvl: "",
-          fullName: fullName,
-          interests: "",
-          url: ""
-        });
-        console.log("Documenemail written with ID: ", docRef.id);
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-    } else {
-      querySnapshot.forEach((doc) => {
-        updateEnglishUser(doc.data().country, doc.data().englishLvl, doc.data().fullName, doc.data().interests, doc.data().url);
-      });
-    }
-  }
-  const updateEnglishUser = (
-    country: string = "",
-    englishLvl: string = "",
-    fullName: string = "",
-    interests: string = "",
-    url: string = "") => {
-
-    setEnglishUser({
-      fullName,
-      url,
-      interests,
-      englishLvl,
-      country,
-    });
-  }
 
   const loginWithGoogle = async () => {
     isLoading();
     const responseGoogle = new GoogleAuthProvider();
     return await signInWithPopup(auth, responseGoogle)
-      .then(async (uwu: any) => {
-        createUserInfo(uwu.user.email, uwu.user.displayName);
+      .then(() => {
         closeAll();
         messageSuccessLogin();
         isNotLoading();
@@ -169,7 +127,6 @@ export const UserProvider = ({
     const responseFacebook = new FacebookAuthProvider();
     return await signInWithPopup(auth, responseFacebook)
       .then(() => {
-        //createUserInfo
         closeAll();
         messageSuccessLogin();
         isNotLoading();
@@ -243,11 +200,55 @@ export const UserProvider = ({
         setEnglishUser({});
       } else {
         if (currentUser.emailVerified) {
+          const usersRef = collection(db, "users");
+          const q = query(usersRef, where("email", "==", currentUser.email));
+          const querySnapshot = await getDocs(q);
+          if (querySnapshot.empty) {
+            try {
+              await addDoc(collection(db, "users"), {
+                country: "",
+                email: currentUser.email,
+                englishLvl: "",
+                fullName: currentUser.displayName || "",
+                interests: "",
+                url: currentUser.photoURL || "",
+                uid: currentUser.uid,
+                creationDate: new Date().toISOString(),
+              });
+            } catch (e) {
+              console.error("Error adding document: ", e);
+            }
+          }
+          let infoUser = {
+            country: "",
+            englishLvl: "",
+            fullName: "",
+            interests: "",
+            url: "",
+            idForm: "",
+          }
+          querySnapshot.forEach((doc) => {
+            infoUser = {
+              country: doc.data().country,
+              englishLvl: doc.data().englishLvl,
+              fullName: doc.data().fullName,
+              interests: doc.data().interests,
+              url: doc.data().url,
+              idForm: doc.id,
+            }
+          });
+
           setEnglishUser({
+            ...englishUser,
             name: currentUser.displayName,
             email: currentUser.email,
             uid: currentUser.uid,
-            url: currentUser.photoURL
+            url: infoUser.url != "" ? infoUser.url : currentUser.photoURL,
+            country: infoUser.country,
+            englishLvl: infoUser.englishLvl,
+            fullName: infoUser.fullName,
+            interests: infoUser.interests,
+            idForm: infoUser.idForm,
           });
         } else {
           try {
