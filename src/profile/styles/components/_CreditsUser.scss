@@ -1,6 +1,6 @@
 .creditUserContainer {
     background: $white;
-    margin-top: 2vw;
+    margin: 2vw 0;
     padding: 20px;
     box-sizing: border-box;
 
@@ -20,6 +20,8 @@
     }
 
     .whatCredits {
+        background: none;
+        border: none;
         margin-top: 20px;
         cursor: pointer;
         text-align: center;
@@ -27,6 +29,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        font-size: 1rem;
         i{
             margin-right: 5px;
         }

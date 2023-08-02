@@ -41,6 +41,13 @@
   animation: slideText 5s linear infinite;
 }
 
+@media (max-width:500px) {
+  .movingText {
+    animation: none;
+  }
+
+}
+
 @keyframes slideText {
   0% {
     transform: translateX(0);

@@ -68,9 +68,9 @@ export const CreditsUser = (/*differenceInSeconds*/) => {
       <h1 className="nextCredit">Next credit: {formatTime(timeRemaining)}</h1>
       <p className="newCredits">You will receive a credit recharge every 15 minutes, limited to a maximum of 3 recharges. Upgrade to premium to enjoy unlimited credits!.</p>
 
-      <a className="whatCredits" onMouseLeave={() => setIsWhatCreditsOpen(false)} onMouseOver={() => setIsWhatCreditsOpen(true)} onClick={() => setIsWhatCreditsOpen(true)}>
+      <button className="whatCredits" onMouseLeave={() => setIsWhatCreditsOpen(false)} onMouseOver={() => setIsWhatCreditsOpen(true)} onClick={() => setIsWhatCreditsOpen(!isWhatCreditsOpen)}>
         <i className=" fa-regular fa-circle-info"></i> What are the credits?
-      </a>
+      </button>
       {isWhatCreditsOpen && <p className="whatCreditsDescription">The English Dynasty offers a wide range of games, tools, and resources that require credits. These credits are essential for unlocking and accessing various features and content within the platform.</p>}
 
     </div>

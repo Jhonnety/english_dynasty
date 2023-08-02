@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import icon_rocket from '../../assets/icons/icon_rocket.png';
 
 export const BannerPublicity = () => {
