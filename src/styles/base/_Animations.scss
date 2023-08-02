@@ -8,6 +8,9 @@
   animation: fadeInDown 0.3s ease;
 }
 
+.fadeInDownAnimals {
+  animation: fadeInDownAnimals 0.3s ease;
+}
 
 .bounceInUp {
   animation-name: bounceInUp;
@@ -76,7 +79,17 @@
   }
 }
 
+@keyframes fadeInDownAnimals {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
 
+  to {
+    opacity: 1;
+    transform: translateY(-40px);
+  }
+}
 
 @keyframes fadeInUp {
   to {

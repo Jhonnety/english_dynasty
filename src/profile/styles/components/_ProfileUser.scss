@@ -70,11 +70,11 @@
         text-align: center;
         margin: 0 auto;
         font-size: 2rem;
-        transform: translateY(-50%);
+        transform: translateY(-40px);
     }
 
     .subcriptionProfile {
-        transform: translateY(-100%);
+        transform: translateY(-40px);
         width: 80%;
         text-align: center;
         margin: 0 auto;
@@ -84,10 +84,62 @@
 }
 
 .changeProfileImageContainer {
-    transform: translateY(-40%);
-    background-color: red;
+    border-top: 2px solid $title1;
+    border-bottom: 2px solid $title1;
     width: 100%;
-    left: 0;
     min-height: 150px;
     height: fit-content;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    transform: translateY(-40px);
+    justify-content: start;
+
+    .animalImageProfile {
+        width: 50px;
+        height: 50px;
+        margin: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .animalImageProfile:hover {
+        transform: scale(1.1);
+    }
+
+    .selectAvatar {
+        width: 100%;
+        text-align: center;
+        font-size: 1rem;
+        color: $title1;
+        margin-bottom: 10px;
+    }
+
+    .saveAvatar {
+        width: 90%;
+        margin: 10px 5%;
+        cursor: pointer;
+        height: 40px;
+        background: $background3;
+        font-size: 1rem;
+        color: white;
+    }
+
+    .saveAvatar:hover {
+        transform: scale(1.05);
+    }
 }
+
+/* @media (min-width: 1350px) {
+    .changeProfileImageContainer {
+      transform: translateY(-40%);
+      background: red;
+    }
+  }
+  
+  @media (min-width: 800px) {
+    .changeProfileImageContainer {
+      transform: translateY(-30%);
+    }
+  }  */

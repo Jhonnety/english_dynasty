@@ -1,30 +1,75 @@
 import { useContext, useState } from 'react';
-import imageProfile from '../../assets/animals/animal_bear.png';
 import { UserContext } from '../../contexts';
+import animals from "../../assets/animals/ImagesAnimal";
+import { ButtonLoadingContext } from '../../contexts/ButtonLoadingProvider';
+import { db } from '../../firebase/Initialization';
+import { doc, updateDoc } from 'firebase/firestore';
+import { useMessage } from '../../hooks/useMessage';
 
 export const ProfileUser = () => {
   const [isOpenProfiles, setIsOpenProfiles] = useState(false)
-  const { englishUser } = useContext(UserContext);
+  const { englishUser, changeProfilePhoto } = useContext(UserContext);
+  const { isNotLoading, isLoading, loading } = useContext(ButtonLoadingContext);
+  const { savedChanges, createMessage } = useMessage()
 
+  const onChangeProfile = (url: string) => {
+    if (!loading) {
+      changeProfilePhoto(url);
+      saveProfilePhoto();
+    }
+  }
+
+  const saveProfilePhoto = async () => {
+    isLoading();
+    const idForm = englishUser.idForm + "";
+    const usersRef = doc(db, "users", idForm);
+
+    await updateDoc(usersRef, {
+      ...englishUser,
+    }).then(() => {
+      savedChanges()
+      isNotLoading();
+    })
+      .catch((e) => {
+        createMessage({
+          kind: 'error',
+          title: 'Error Saving Changes',
+          paragraph: 'We apologize, but there was an error while attempting to save your changes. Please check your internet connection and try again later.',
+          error: e
+        });
+        isNotLoading();
+      })
+  }
   return (
     <>
       <div className="profileImageContainer">
         <div className="backgroundContainer"><div></div></div>
         <div className="imageProfile">
-          <img src={(englishUser.url != "" && englishUser.url != undefined) ? englishUser.url : imageProfile} />
+          <img src={(englishUser.url != "" && englishUser.url != undefined) ? englishUser.url : animals.animalPanda} />
           <button className='changeProfileButton'
             onClick={() => setIsOpenProfiles(!isOpenProfiles)}>
             <i className="fa-solid fa-clothes-hanger"></i>
           </button>
         </div>
         {isOpenProfiles &&
-          <div className='changeProfileImageContainer'>
-
+          <div className='changeProfileImageContainer fadeInDownAnimals'>
+            <h1 className='selectAvatar'>Select your avatar!</h1>
+            {
+              Object.keys(animals).map((animal) => (
+                <img key={animal} onClick={() => onChangeProfile(animals[animal])} className='animalImageProfile' src={animals[animal]} />
+              ))
+            }
+            {
+              !(englishUser.urlGoogle == "" || englishUser.urlGoogle == undefined) &&
+              <img onClick={() => onChangeProfile(englishUser.urlGoogle as string)} className='animalImageProfile' src={englishUser.urlGoogle} />
+            }
           </div>
         }
         <h1 className="nameProfile">Jhon</h1>
         <h1 className="subcriptionProfile">Free account</h1>
-      </div>
+
+      </div >
     </>
   )
 }
+

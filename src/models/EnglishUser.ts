@@ -9,5 +9,6 @@ export interface EnglishUser {
     fullName?:string,
     interests?:string,
     creationDate?:string,
-    idForm?:string
+    idForm?:string,
+    urlGoogle?:string
   }

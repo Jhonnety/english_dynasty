@@ -77,7 +77,7 @@ export const InfoUser = () => {
                 </li>
                 <li className="infoUserItem">
                     <h3 className="infoUserTitle">Country: </h3>
-                    <input className="infoUserInput" name="country" value={country} placeholder="Ej: Spain" onChange={onInputChange} />
+                    <input className="infoUserInput" name="country" value={country} placeholder="e.g., Spain" onChange={onInputChange} />
                 </li>
                 <li className="infoUserItem">
                     <h3 className="infoUserTitle">Interests: </h3>

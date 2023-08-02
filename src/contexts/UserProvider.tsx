@@ -25,7 +25,8 @@ interface UserContextProps {
   loginWithGoogle: any,
   loginWithFacebook: any,
   logOut: () => Promise<void>,
-  resetPassword: (email: string, onResetForm: () => void) => Promise<void>
+  resetPassword: (email: string, onResetForm: () => void) => Promise<void>,
+  changeProfilePhoto: (url: string) => void,
 }
 
 
@@ -36,7 +37,8 @@ export const UserContext = createContext<UserContextProps>({
   loginWithGoogle: () => { },
   logOut: () => Promise.resolve(),
   loginWithFacebook: () => { },
-  resetPassword: () => Promise.resolve()
+  resetPassword: () => Promise.resolve(),
+  changeProfilePhoto: () => { },
 });
 
 export const UserProvider = ({
@@ -193,7 +195,12 @@ export const UserProvider = ({
         isNotLoading();
       });
   };
-
+  const changeProfilePhoto = async (url: string) => {
+    setEnglishUser({
+      ...englishUser,
+      url
+    });
+  }
   useEffect(() => {
     const suscribed = onAuthStateChanged(auth, async (currentUser) => {
       if (!currentUser) {
@@ -249,6 +256,7 @@ export const UserProvider = ({
             fullName: infoUser.fullName,
             interests: infoUser.interests,
             idForm: infoUser.idForm,
+            urlGoogle: currentUser.photoURL
           });
         } else {
           try {
@@ -264,7 +272,7 @@ export const UserProvider = ({
     return () => suscribed()
   }, [])
   return (
-    <UserContext.Provider value={{ englishUser, signUp, login, loginWithGoogle, logOut, loginWithFacebook, resetPassword }}>
+    <UserContext.Provider value={{ englishUser, changeProfilePhoto, signUp, login, loginWithGoogle, logOut, loginWithFacebook, resetPassword }}>
       {children}
     </UserContext.Provider>
   );
