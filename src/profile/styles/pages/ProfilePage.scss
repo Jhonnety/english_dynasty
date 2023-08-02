@@ -10,7 +10,7 @@
 
     .profileUserColumn {
         width: 30%;
-        height: auto;
+        height: fit-content;
         min-height: calc(100vh - 70px);
         background: none;
     }
@@ -20,9 +20,7 @@
         width: 68%;
         height: fit-content;
         min-height: calc(100vh - 70px);
-        background: blue;
-        display: flex;
-        flex-direction: column;
+        background: none;
     }
 }
 @media (max-width:$adaptation) {
@@ -35,6 +33,7 @@
     
         .infoUserColumn {
             width: 100%;
+            margin-left:0;
         }
     }
 }

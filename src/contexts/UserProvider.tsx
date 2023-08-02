@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { EnglishUser } from '../models';
-import { auth } from '../firebase/Initialization';
+import { auth, db } from '../firebase/Initialization';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -15,6 +15,7 @@ import {
 import { useMessage } from '../hooks/useMessage';
 import { AuthContext } from '.';
 import { ButtonLoadingContext } from './ButtonLoadingProvider';
+import { collection, query, where, addDoc, getDocs } from "firebase/firestore";
 
 const { createMessage, messageSuccessLogin, messageUserOrPasswordError, sendVerificationEmail } = useMessage();
 interface UserContextProps {
@@ -79,6 +80,7 @@ export const UserProvider = ({
       .then(({ user }) => {
         closeAll();
         if (user.emailVerified) {
+          createUserInfo(email);
           messageSuccessLogin();
         }
         else {
@@ -101,11 +103,53 @@ export const UserProvider = ({
         isNotLoading();
       })
   }
+  const createUserInfo = async (email: string, fullName: string = "") => {
+    const usersRef = collection(db, "users");
+
+    const q = query(usersRef, where("email", "==", email));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      try {
+        const docRef = await addDoc(collection(db, "users"), {
+          country: "",
+          email: email,
+          englishLvl: "",
+          fullName: fullName,
+          interests: "",
+          url: ""
+        });
+        console.log("Documenemail written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    } else {
+      querySnapshot.forEach((doc) => {
+        updateEnglishUser(doc.data().country, doc.data().englishLvl, doc.data().fullName, doc.data().interests, doc.data().url);
+      });
+    }
+  }
+  const updateEnglishUser = (
+    country: string = "",
+    englishLvl: string = "",
+    fullName: string = "",
+    interests: string = "",
+    url: string = "") => {
+
+    setEnglishUser({
+      fullName,
+      url,
+      interests,
+      englishLvl,
+      country,
+    });
+  }
+
   const loginWithGoogle = async () => {
     isLoading();
     const responseGoogle = new GoogleAuthProvider();
     return await signInWithPopup(auth, responseGoogle)
-      .then(() => {
+      .then(async (uwu: any) => {
+        createUserInfo(uwu.user.email, uwu.user.displayName);
         closeAll();
         messageSuccessLogin();
         isNotLoading();
@@ -125,6 +169,7 @@ export const UserProvider = ({
     const responseFacebook = new FacebookAuthProvider();
     return await signInWithPopup(auth, responseFacebook)
       .then(() => {
+        //createUserInfo
         closeAll();
         messageSuccessLogin();
         isNotLoading();

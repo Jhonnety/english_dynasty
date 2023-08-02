@@ -3,5 +3,9 @@ export interface EnglishUser {
     name?: string;
     email?: string;
     uid?:string;
-    url?:string
+    url?:string,
+    country?:string,
+    englishLvl?:string,
+    fullName?:string,
+    interests?:string
   }

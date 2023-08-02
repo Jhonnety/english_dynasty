@@ -1,4 +1,4 @@
-import { CreditsUser, ProfileUser } from "../components"
+import { BannerPublicity, CreditsUser, InfoUser, ProfileUser } from "../components"
 
 export const ProfilePage = () => {
   return (
@@ -8,9 +8,9 @@ export const ProfilePage = () => {
         <CreditsUser />
       </div>
       <div className="infoUserColumn">
-
+        <InfoUser />
+        <BannerPublicity />
       </div>
-
     </div>
   )
 }

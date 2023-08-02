@@ -1,0 +1,69 @@
+.bannerPublicityContainer {
+    background: $white;
+    background-size: 80%;
+    margin-top: 2vw;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: relative;
+
+    .giftBox {
+        height: 100%;
+        width: 20%;
+        font-size: 5vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .textGiftContainer {
+        background: linear-gradient(#FFB02E , #FCD53F);
+        width: 80%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+
+        .descountPorcent {
+            width: 100%;
+            color: $white;
+            text-align: center;
+            font-size: 5vw;
+            height: 100px;
+        }
+    
+        .rocketOffer {
+            position: absolute;
+            right: -2%;
+            top: 60%;
+            z-index: 2;
+        }
+        .offerContainer{
+            position: absolute;
+            width: 100%;
+            height: 40px;
+            bottom: -40px;
+            left: 0;
+            overflow: hidden; 
+            white-space: nowrap;
+            background:$white;
+            display: flex;
+
+            .offerTitle{
+                position: absolute;
+                color: #FFB02E;
+                font-size: 1.5rem;
+                width: 100%;
+                b {
+                    color: #F8312F;
+                    font-weight: 900;
+                }
+            }
+        }
+
+    }
+
+}
