@@ -1,29 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { TimeContext, UserContext } from "../../contexts";
-import { COST_CREDIT, MAX_CREDIT } from "../../utils";
+import { MAX_CREDIT } from "../../utils";
 
 export const CreditsUser = () => {
-  const { time } = useContext(TimeContext);
-  const [timeRemaining, setTimeRemaining] = useState(COST_CREDIT - time);
+  const { timeRemaining } = useContext(TimeContext);
   const { englishUser } = useContext(UserContext);
   const [isWhatCreditsOpen, setIsWhatCreditsOpen] = useState(false);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTimeRemaining((prevTime) => {
-        if (prevTime === 0) {
-          clearInterval(intervalId);
-          console.log("Call to the fuction");
-          return prevTime;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
 
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);

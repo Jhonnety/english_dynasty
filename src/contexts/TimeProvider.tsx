@@ -3,6 +3,7 @@ import { UserContext } from '.';
 import { COST_CREDIT, MAX_CREDIT } from '../utils';
 interface LoadingData {
     time: number;
+    timeRemaining: number;
     isLoading: () => void;
     isNotLoading: () => void;
 }
@@ -11,6 +12,7 @@ export const TimeContext = createContext<LoadingData>({
     time: 3,
     isLoading: () => { },
     isNotLoading: () => { },
+    timeRemaining: 0,
 });
 
 
@@ -20,13 +22,31 @@ interface TimeProvider {
 
 export const TimeProvider = ({ children }: TimeProvider) => {
     const [time, setTime] = useState(0);
+    const [timeRemaining, setTimeRemaining] = useState(COST_CREDIT - time);
     const { englishUser, addCredits } = useContext(UserContext);
-
+    const [addCredit, setAddCredit] = useState(false)
     const calculateTimeDifferenceInSec = (pastDate: Date, presentDate: Date): number => {
         const differenceInMilliseconds = presentDate.getTime() - pastDate.getTime();
         const differenceInSeconds = differenceInMilliseconds / 1000;
         return differenceInSeconds;
     }
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            setTimeRemaining((prevTime) => {
+                if (prevTime === 0) {
+                    clearInterval(intervalId);
+                    setAddCredit(!addCredit)
+                    return prevTime;
+                }
+                return prevTime - 1;
+            });
+        }, 1000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [timeRemaining]);
 
     useEffect(() => {
 
@@ -44,7 +64,7 @@ export const TimeProvider = ({ children }: TimeProvider) => {
                     differenceInSeconds -= COST_CREDIT;
                     timeOut += COST_CREDIT
                 }
-
+                setTimeRemaining(COST_CREDIT - differenceInSeconds)
                 const dateObject = new Date(englishUser.lastCreditDate);
                 dateObject.setSeconds(dateObject.getSeconds() + timeOut);
                 const newDate = dateObject.toISOString();
@@ -55,7 +75,7 @@ export const TimeProvider = ({ children }: TimeProvider) => {
                 addCredits(newCredits, englishUser.credits, englishUser.idForm as string, newDate as string);
             }
         }
-    }, [englishUser.credits])
+    }, [englishUser.credits, addCredit])
 
     const isLoading = () => {
         /*   setLoading(true); */
@@ -66,7 +86,7 @@ export const TimeProvider = ({ children }: TimeProvider) => {
     };
 
     return (
-        <TimeContext.Provider value={{ time, isLoading, isNotLoading }}>
+        <TimeContext.Provider value={{ timeRemaining, time, isLoading, isNotLoading }}>
             {children}
         </TimeContext.Provider>
     );
