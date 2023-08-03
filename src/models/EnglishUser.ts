@@ -10,5 +10,8 @@ export interface EnglishUser {
     interests?:string,
     creationDate?:string,
     idForm?:string,
-    urlGoogle?:string
+    urlGoogle?:string,
+    lastCreditDate?:string,
+    credits?:number,
+    kind?:string,
   }

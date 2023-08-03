@@ -15,17 +15,19 @@ export const ProfileUser = () => {
   const onChangeProfile = (url: string) => {
     if (!loading) {
       changeProfilePhoto(url);
-      saveProfilePhoto();
+      saveProfilePhoto(url);
     }
   }
 
-  const saveProfilePhoto = async () => {
+  const saveProfilePhoto = async (url:string) => {
     isLoading();
     const idForm = englishUser.idForm + "";
     const usersRef = doc(db, "users", idForm);
 
     await updateDoc(usersRef, {
       ...englishUser,
+
+      url
     }).then(() => {
       savedChanges()
       isNotLoading();

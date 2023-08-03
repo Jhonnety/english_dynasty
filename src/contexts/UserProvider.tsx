@@ -27,6 +27,7 @@ interface UserContextProps {
   logOut: () => Promise<void>,
   resetPassword: (email: string, onResetForm: () => void) => Promise<void>,
   changeProfilePhoto: (url: string) => void,
+  minusCredits: (credits: number) => void
 }
 
 
@@ -39,6 +40,7 @@ export const UserContext = createContext<UserContextProps>({
   loginWithFacebook: () => { },
   resetPassword: () => Promise.resolve(),
   changeProfilePhoto: () => { },
+  minusCredits: () => { }
 });
 
 export const UserProvider = ({
@@ -175,6 +177,13 @@ export const UserProvider = ({
         isNotLoading();
       });
   }
+
+  const minusCredits = (credits: number) => {
+    setEnglishUser({
+      ...englishUser,
+      credits
+    })
+  }
   const logOut = async () => {
     await signOut(auth)
       .then(() => {
@@ -221,6 +230,9 @@ export const UserProvider = ({
                 url: currentUser.photoURL || "",
                 uid: currentUser.uid,
                 creationDate: new Date().toISOString(),
+                credits: 3,
+                kind: "free",
+                lastCreditDate: ""
               });
             } catch (e) {
               console.error("Error adding document: ", e);
@@ -233,6 +245,9 @@ export const UserProvider = ({
             interests: "",
             url: "",
             idForm: "",
+            lastCreditDate: "",
+            credits: 3,
+            kind: "",
           }
           querySnapshot.forEach((doc) => {
             infoUser = {
@@ -242,6 +257,9 @@ export const UserProvider = ({
               interests: doc.data().interests,
               url: doc.data().url,
               idForm: doc.id,
+              lastCreditDate: doc.data().lastCreditDate,
+              credits: doc.data().credits,
+              kind: doc.data().kind
             }
           });
 
@@ -256,7 +274,10 @@ export const UserProvider = ({
             fullName: infoUser.fullName,
             interests: infoUser.interests,
             idForm: infoUser.idForm,
-            urlGoogle: currentUser.photoURL
+            urlGoogle: currentUser.photoURL,
+            lastCreditDate: infoUser.lastCreditDate,
+            credits: infoUser.credits,
+            kind: infoUser.kind
           });
         } else {
           try {
@@ -272,7 +293,7 @@ export const UserProvider = ({
     return () => suscribed()
   }, [])
   return (
-    <UserContext.Provider value={{ englishUser, changeProfilePhoto, signUp, login, loginWithGoogle, logOut, loginWithFacebook, resetPassword }}>
+    <UserContext.Provider value={{ englishUser, minusCredits, changeProfilePhoto, signUp, login, loginWithGoogle, logOut, loginWithFacebook, resetPassword }}>
       {children}
     </UserContext.Provider>
   );
