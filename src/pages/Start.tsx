@@ -4,7 +4,8 @@ import { UserContext } from '../contexts';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../firebase/Initialization';
 import { useMessage } from '../hooks/useMessage';
-import { MAX_CREDIT } from '../utils';
+
+const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT)
 
 export const Start = () => {
   const { englishUser, minusCredits } = useContext(UserContext);

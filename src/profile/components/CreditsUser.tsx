@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { TimeContext, UserContext } from "../../contexts";
-import { MAX_CREDIT } from "../../utils";
+
+const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT);
 
 export const CreditsUser = () => {
   const { timeRemaining } = useContext(TimeContext);
@@ -18,7 +19,7 @@ export const CreditsUser = () => {
     <div className="creditUserContainer">
       <h1 className="credits"><i className="fa-light fa-coin"></i> Credits: {englishUser.credits}</h1>
       {englishUser.credits != MAX_CREDIT && <h1 className="nextCredit">Next credit: {formatTime(timeRemaining)}</h1>}
-      <p className="newCredits">You will receive a credit recharge every 15 minutes, limited to a maximum of 3 recharges. Upgrade to premium to enjoy unlimited credits!.</p>
+      <p className="newCredits">You will receive a credit recharge every 30 minutes, limited to a maximum of 3 recharges. Upgrade to premium to enjoy unlimited credits!.</p>
 
       <button className="whatCredits" onMouseLeave={() => setIsWhatCreditsOpen(false)} onMouseOver={() => setIsWhatCreditsOpen(true)} onClick={() => setIsWhatCreditsOpen(!isWhatCreditsOpen)}>
         <i className=" fa-regular fa-circle-info"></i> What are the credits?

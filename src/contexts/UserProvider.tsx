@@ -16,9 +16,10 @@ import { useMessage } from '../hooks/useMessage';
 import { AuthContext } from '.';
 import { ButtonLoadingContext } from './ButtonLoadingProvider';
 import { collection, query, where, addDoc, getDocs, doc, updateDoc } from "firebase/firestore";
-import { MAX_CREDIT } from '../utils';
 
-const { createMessage, messageSuccessLogin, messageUserOrPasswordError, sendVerificationEmail } = useMessage();
+const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT);
+
+const { createMessage, messageSuccessLogin, messageUserOrPasswordError, sendVerificationEmail, unexpectedError } = useMessage();
 interface UserContextProps {
   englishUser: EnglishUser;
   signUp: (email: string, password: string, onResetForm: () => void) => Promise<void>,
@@ -52,7 +53,6 @@ export const UserProvider = ({
   const [englishUser, setEnglishUser] = useState({});
   const { closeAll } = useContext(AuthContext);
   const { isNotLoading, isLoading } = useContext(ButtonLoadingContext);
-
   const signUp = async (email: string, password: string, onResetForm: () => void) => {
     isLoading();
     try {
@@ -199,9 +199,7 @@ export const UserProvider = ({
     if (credits == MAX_CREDIT) {
       return
     }
-
     credits = credits + newCredits
-    console.log("cre: " + credits)
     if (credits > MAX_CREDIT) credits = MAX_CREDIT
 
     const usersRef = doc(db, "users", idForm);
@@ -220,7 +218,7 @@ export const UserProvider = ({
         })
       })
         .catch(() => {
-
+          unexpectedError();
         })
     }
     else {
@@ -236,7 +234,7 @@ export const UserProvider = ({
         })
       })
         .catch(() => {
-
+          unexpectedError();
         })
     }
 

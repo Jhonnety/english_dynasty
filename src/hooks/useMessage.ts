@@ -88,14 +88,21 @@ export const useMessage = () => {
         timerProgressBar: 'timerProgressBarSuccess',
       },
     })
+  }
 
-
+  const unexpectedError = () =>{
+    createMessage({
+      kind: 'error',
+      title: 'Unexpected Error',
+      paragraph: 'We apologize for the inconvenience caused. Our system encountered an unforeseen technical issue, disrupting your experience. Our team is actively working on a solution. Thank you for your understanding.',
+    });
   }
   return {
     savedChanges,
     createMessage,
     messageSuccessLogin,
     messageUserOrPasswordError,
-    sendVerificationEmail
+    sendVerificationEmail,
+    unexpectedError
   }
 }

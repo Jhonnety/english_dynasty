@@ -1,6 +1,9 @@
 import { createContext, useState, ReactNode, useEffect, useContext } from 'react';
 import { UserContext } from '.';
-import { COST_CREDIT, MAX_CREDIT } from '../utils';
+
+const COST_CREDIT = parseInt(import.meta.env.VITE_COST_CREDIT);
+const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT);
+
 interface LoadingData {
     time: number;
     timeRemaining: number;
@@ -24,7 +27,7 @@ export const TimeProvider = ({ children }: TimeProvider) => {
     const [time, setTime] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState(COST_CREDIT - time);
     const { englishUser, addCredits } = useContext(UserContext);
-    const [addCredit, setAddCredit] = useState(false)
+    const [addCredit, setAddCredit] = useState(false);
     const calculateTimeDifferenceInSec = (pastDate: Date, presentDate: Date): number => {
         const differenceInMilliseconds = presentDate.getTime() - pastDate.getTime();
         const differenceInSeconds = differenceInMilliseconds / 1000;
@@ -62,15 +65,12 @@ export const TimeProvider = ({ children }: TimeProvider) => {
                 while (differenceInSeconds >= COST_CREDIT && newCredits < MAX_CREDIT) {
                     newCredits++;
                     differenceInSeconds -= COST_CREDIT;
-                    timeOut += COST_CREDIT
+                    timeOut += COST_CREDIT;
                 }
                 setTimeRemaining(COST_CREDIT - differenceInSeconds)
                 const dateObject = new Date(englishUser.lastCreditDate);
                 dateObject.setSeconds(dateObject.getSeconds() + timeOut);
                 const newDate = dateObject.toISOString();
-
-                console.log(newCredits)
-                console.log(differenceInSeconds)
                 setTime(differenceInSeconds)
                 addCredits(newCredits, englishUser.credits, englishUser.idForm as string, newDate as string);
             }
