@@ -1,15 +1,22 @@
 import { useContext } from 'react';
 import imagen_girl1 from '../assets/images/imagen_girl1.png';
-import { UserContext } from '../contexts';
+import { TimeContext, UserContext } from '../contexts';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../firebase/Initialization';
 import { useMessage } from '../hooks/useMessage';
 
 const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT)
 
+const formatTime = (time: number) => {
+  const minutes = Math.floor(time / 60);
+  const seconds = time % 60;
+  return `${minutes.toString()} minutes and ${seconds.toString()} seconds`;
+};
+
 export const Start = () => {
   const { englishUser, minusCredits } = useContext(UserContext);
-  const { createMessage } = useMessage()
+  const { timeRemaining } = useContext(TimeContext);
+  const { createMessage, noCredits } = useMessage()
   const handleMinusOneCredit = async (credits: number) => {
     const idForm = englishUser.idForm + "";
     const usersRef = doc(db, "users", idForm);
@@ -33,7 +40,7 @@ export const Start = () => {
         })
           .catch((e) => { console.log(e) })
       } else if (englishUser.credits <= 0) {
-        console.log("No credits")
+        noCredits(formatTime(timeRemaining));
       }
       else {
         await updateDoc(usersRef, {

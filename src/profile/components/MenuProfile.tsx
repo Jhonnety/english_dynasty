@@ -32,7 +32,7 @@ export const MenuProfile = ({ setIsSubMenuOpen }: { setIsSubMenuOpen: SetIsSubMe
                         className=""
                         to="/profile/credits"
                         onClick={() => setIsSubMenuOpen(false)}
-                    ><i className="fa-light fa-coin"></i> Credits</NavLink>
+                    ><i className="fa-light fa-coin"></i> Credits: {englishUser.credits}</NavLink>
                     <hr />
                     <NavLink
                         className=""

@@ -13,22 +13,62 @@
     box-shadow: none !important;
     background: $background3 !important;
 }
-.successMessageTitle{
+
+.successMessageTitle {
     color: $title1 !important;
     font-size: 2rem !important;
-    font-family: $font1  !important;
+    font-family: $font1 !important;
 }
-.errorMessageTitle{
+
+.errorMessageTitle {
     color: $title2 !important;
     font-size: 2rem !important;
-    font-family: $font1  !important;
+    font-family: $font1 !important;
 }
-.timerProgressBarSuccess{
+
+.timerProgressBarSuccess {
     height: 10px !important;
     background: $title1 !important;
 }
-.timerProgressBarError{
+
+.timerProgressBarError {
     height: 10px !important;
     background: $title2 !important;
 }
 
+.iconCreditSweet {
+    border: none;
+    width: 100%;
+    font-size: 0.5rem !important;
+    text-align: center;
+    color: $title1;
+    font-weight: 900;
+
+    i {
+        margin: 5px;
+        font-size: 3rem;
+    }
+}
+
+.titleNoCredits {
+    color: $title3;
+    font-size: 1.5rem !important;
+
+    b {
+        color: $title1;
+        font-weight: 900 !important;
+    }
+}
+
+.noCreditsButton {
+    background: $title1 !important;
+    color: $white ;
+    box-shadow: none !important;
+    font-size: 1rem !important;
+    border-radius: 0 !important;
+    margin-top: 20px;
+}
+
+.noCreditsButton:hover {
+    transform: scale(1.05);
+}

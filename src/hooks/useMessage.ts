@@ -3,6 +3,7 @@ import icon_success from '../assets/icons/icon_success.png'
 import icon_error from '../assets/icons/icon_error.png'
 import { MessageModel } from '../models'
 
+
 export const useMessage = () => {
 
   const createMessage = (message: MessageModel) => {
@@ -70,7 +71,6 @@ export const useMessage = () => {
     });
   }
   const sendVerificationEmail = (email: string) => {
-
     Swal.fire({
       title: 'Verification Email Sent!',
       text: `Thank you for signing up with English Dynasty! We've sent a verification email to ${email}. To continue, please check your email and click on the verification link. This is an important step to ensure the security of your account.`,
@@ -90,19 +90,40 @@ export const useMessage = () => {
     })
   }
 
-  const unexpectedError = () =>{
+  const unexpectedError = () => {
     createMessage({
       kind: 'error',
       title: 'Unexpected Error',
       paragraph: 'We apologize for the inconvenience caused. Our system encountered an unforeseen technical issue, disrupting your experience. Our team is actively working on a solution. Thank you for your understanding.',
     });
   }
+
+
+  const noCredits = (time: string) => {
+    Swal.fire({
+      title: `Next free credit in: <b>${time}</b>`,
+      iconHtml: '¡Insufficient credits  <i class="fa-light fa-coin"></i>!',
+      showConfirmButton: true,
+      confirmButtonText: '<i class="fa-regular fa-cart-shopping"></i> Do you need more credits?',
+      customClass: {
+        icon: "iconCreditSweet",
+        title: "titleNoCredits",
+        confirmButton: "noCreditsButton"
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("¡Offers about credits are comming soon!", '', 'success')
+      }
+    });
+  }
+
   return {
     savedChanges,
     createMessage,
     messageSuccessLogin,
     messageUserOrPasswordError,
     sendVerificationEmail,
-    unexpectedError
+    unexpectedError,
+    noCredits
   }
 }
