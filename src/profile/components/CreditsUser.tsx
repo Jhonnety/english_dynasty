@@ -1,42 +1,12 @@
-import { useEffect, useState } from "react";
-import { pastDate } from "../../utils/creditsProb";
+import { useContext, useEffect, useState } from "react";
+import { TimeContext, UserContext } from "../../contexts";
+import { COST_CREDIT, MAX_CREDIT } from "../../utils";
 
-const timeCredit = 900; //15MIN
-//data base
-const calculateTimeDifferenceInSec = (pastDate: Date, presentDate: Date): number => {
-  const differenceInMilliseconds = presentDate.getTime() - pastDate.getTime();
-  const differenceInSeconds = differenceInMilliseconds / 1000;
-  return differenceInSeconds;
-}
-const presentDate = new Date();
-let differenceInSeconds = Math.round(calculateTimeDifferenceInSec(pastDate, presentDate));
-
-//fin data base
-
-//context credits
-let credits = 1;
-
-const addCredits = () => {
-  while (differenceInSeconds >= timeCredit) {
-    credits++;
-    differenceInSeconds -= 900;
-  }
-
-}
-
-export const CreditsUser = (/*differenceInSeconds*/) => {
-  const [timeRemaining, setTimeRemaining] = useState(differenceInSeconds);
-
+export const CreditsUser = () => {
+  const { time } = useContext(TimeContext);
+  const [timeRemaining, setTimeRemaining] = useState(COST_CREDIT - time);
+  const { englishUser } = useContext(UserContext);
   const [isWhatCreditsOpen, setIsWhatCreditsOpen] = useState(false);
-
-  addCredits();
-
-  useEffect(() => {
-    addCredits();
-
-
-
-  }, [])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -64,8 +34,8 @@ export const CreditsUser = (/*differenceInSeconds*/) => {
 
   return (
     <div className="creditUserContainer">
-      <h1 className="credits"><i className="fa-light fa-coin"></i> Credits: {credits}</h1>
-      <h1 className="nextCredit">Next credit: {formatTime(timeRemaining)}</h1>
+      <h1 className="credits"><i className="fa-light fa-coin"></i> Credits: {englishUser.credits}</h1>
+      {englishUser.credits != MAX_CREDIT && <h1 className="nextCredit">Next credit: {formatTime(timeRemaining)}</h1>}
       <p className="newCredits">You will receive a credit recharge every 15 minutes, limited to a maximum of 3 recharges. Upgrade to premium to enjoy unlimited credits!.</p>
 
       <button className="whatCredits" onMouseLeave={() => setIsWhatCreditsOpen(false)} onMouseOver={() => setIsWhatCreditsOpen(true)} onClick={() => setIsWhatCreditsOpen(!isWhatCreditsOpen)}>

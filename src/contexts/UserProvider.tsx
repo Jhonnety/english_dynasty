@@ -15,7 +15,8 @@ import {
 import { useMessage } from '../hooks/useMessage';
 import { AuthContext } from '.';
 import { ButtonLoadingContext } from './ButtonLoadingProvider';
-import { collection, query, where, addDoc, getDocs } from "firebase/firestore";
+import { collection, query, where, addDoc, getDocs, doc, updateDoc } from "firebase/firestore";
+import { MAX_CREDIT } from '../utils';
 
 const { createMessage, messageSuccessLogin, messageUserOrPasswordError, sendVerificationEmail } = useMessage();
 interface UserContextProps {
@@ -27,7 +28,8 @@ interface UserContextProps {
   logOut: () => Promise<void>,
   resetPassword: (email: string, onResetForm: () => void) => Promise<void>,
   changeProfilePhoto: (url: string) => void,
-  minusCredits: (credits: number) => void
+  minusCredits: (credits: number, lastCreditDate: string) => void,
+  addCredits: (newCredits: number, credits: number, idForm: string, newDate: string) => void,
 }
 
 
@@ -40,7 +42,8 @@ export const UserContext = createContext<UserContextProps>({
   loginWithFacebook: () => { },
   resetPassword: () => Promise.resolve(),
   changeProfilePhoto: () => { },
-  minusCredits: () => { }
+  minusCredits: () => { },
+  addCredits: () => { },
 });
 
 export const UserProvider = ({
@@ -178,11 +181,62 @@ export const UserProvider = ({
       });
   }
 
-  const minusCredits = (credits: number) => {
-    setEnglishUser({
-      ...englishUser,
-      credits
-    })
+  const minusCredits = (credits: number, lastCreditDate: string) => {
+    if (lastCreditDate == "") {
+      setEnglishUser({
+        ...englishUser,
+        credits
+      })
+    } else {
+      setEnglishUser({
+        ...englishUser,
+        credits,
+        lastCreditDate
+      })
+    }
+  }
+  const addCredits = async (newCredits: number, credits: number, idForm: string, newDate: string) => {
+
+    credits = credits + newCredits
+    console.log("cre: " + credits)
+    if (credits > MAX_CREDIT) credits = MAX_CREDIT
+
+    const usersRef = doc(db, "users", idForm);
+    if (credits == MAX_CREDIT) {
+
+      const lastCreditDate = new Date().toISOString();
+      await updateDoc(usersRef, {
+        ...englishUser,
+        credits,
+        lastCreditDate
+      }).then(() => {
+        setEnglishUser({
+          ...englishUser,
+          credits,
+          lastCreditDate
+        })
+      })
+        .catch(() => {
+
+        })
+    }
+    else {
+      await updateDoc(usersRef, {
+        ...englishUser,
+        credits,
+        lastCreditDate: newDate
+      }).then(() => {
+        setEnglishUser({
+          ...englishUser,
+          credits,
+          lastCreditDate: newDate
+        })
+      })
+        .catch(() => {
+
+        })
+    }
+
   }
   const logOut = async () => {
     await signOut(auth)
@@ -293,7 +347,18 @@ export const UserProvider = ({
     return () => suscribed()
   }, [])
   return (
-    <UserContext.Provider value={{ englishUser, minusCredits, changeProfilePhoto, signUp, login, loginWithGoogle, logOut, loginWithFacebook, resetPassword }}>
+    <UserContext.Provider value={{
+      englishUser,
+      minusCredits,
+      changeProfilePhoto,
+      signUp,
+      login,
+      loginWithGoogle,
+      logOut,
+      loginWithFacebook,
+      resetPassword,
+      addCredits
+    }}>
       {children}
     </UserContext.Provider>
   );

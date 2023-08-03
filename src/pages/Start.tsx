@@ -4,6 +4,7 @@ import { UserContext } from '../contexts';
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../firebase/Initialization';
 import { useMessage } from '../hooks/useMessage';
+import { MAX_CREDIT } from '../utils';
 
 export const Start = () => {
   const { englishUser, minusCredits } = useContext(UserContext);
@@ -12,19 +13,48 @@ export const Start = () => {
   const handleMinusOneCredit = async (credits: number) => {
     const idForm = englishUser.idForm + "";
     const usersRef = doc(db, "users", idForm);
+    const lastCreditDate = new Date().toISOString()
+    if (englishUser.credits != undefined) {
+      const newCredits = englishUser.credits - credits;
+      if (englishUser.credits == MAX_CREDIT) {
+        await updateDoc(usersRef, {
+          ...englishUser,
+          credits: newCredits,
+          lastCreditDate
+        }).then(() => {
+          if (englishUser.credits != undefined) {
+            minusCredits(newCredits, lastCreditDate);
+            createMessage({
+              kind: 'success',
+              title: 'Minus one credit',
+              paragraph: 'You wasted 1 credit',
+            });
+          }
+        })
+          .catch((e) => { console.log(e) })
+      }else if(englishUser.credits <= 0){
+        console.log("No credits")
+      }
+       else {
+        await updateDoc(usersRef, {
+          ...englishUser,
+          credits: newCredits,
+        }).then(() => {
+          if (englishUser.credits != undefined) {
+            minusCredits(newCredits, "");
+            createMessage({
+              kind: 'success',
+              title: 'Minus one credit',
+              paragraph: 'You wasted 1 credit',
+            });
+          }
+        })
+          .catch((e) => { console.log(e) })
+      }
 
-    await updateDoc(usersRef, {
-      ...englishUser,
-      credits: englishUser.credits ? (englishUser.credits - credits) : 3
-    }).then(() => {
-      minusCredits(englishUser.credits ? (englishUser.credits - credits) : 3);
-      createMessage({
-        kind: 'success',
-        title: 'Minus one credit',
-        paragraph: 'You wasted 1 credit',
-      });
-    })
-      .catch((e) => { console.log(e) })
+
+
+    }
   }
 
   return (
