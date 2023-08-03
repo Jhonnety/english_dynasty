@@ -196,6 +196,9 @@ export const UserProvider = ({
     }
   }
   const addCredits = async (newCredits: number, credits: number, idForm: string, newDate: string) => {
+    if (credits == MAX_CREDIT) {
+      return
+    }
 
     credits = credits + newCredits
     console.log("cre: " + credits)
