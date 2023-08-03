@@ -7,14 +7,12 @@ const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT);
 interface LoadingData {
     time: number;
     timeRemaining: number;
-    isLoading: () => void;
-    isNotLoading: () => void;
+    resetTimer: () => void;
 }
 
 export const TimeContext = createContext<LoadingData>({
     time: 3,
-    isLoading: () => { },
-    isNotLoading: () => { },
+    resetTimer: () => { },
     timeRemaining: 0,
 });
 
@@ -45,7 +43,9 @@ export const TimeProvider = ({ children }: TimeProvider) => {
                 return prevTime - 1;
             });
         }, 1000);
-
+        if (englishUser.credits == MAX_CREDIT) {
+            clearInterval(intervalId);
+        }
         return () => {
             clearInterval(intervalId);
         };
@@ -77,16 +77,12 @@ export const TimeProvider = ({ children }: TimeProvider) => {
         }
     }, [englishUser.credits, addCredit])
 
-    const isLoading = () => {
-        /*   setLoading(true); */
-    };
-
-    const isNotLoading = () => {
-        /*   setLoading(false); */
+    const resetTimer = () => {
+        setAddCredit(!addCredit);
     };
 
     return (
-        <TimeContext.Provider value={{ timeRemaining, time, isLoading, isNotLoading }}>
+        <TimeContext.Provider value={{ timeRemaining, time, resetTimer }}>
             {children}
         </TimeContext.Provider>
     );

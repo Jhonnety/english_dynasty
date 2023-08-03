@@ -10,7 +10,6 @@ const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT)
 export const Start = () => {
   const { englishUser, minusCredits } = useContext(UserContext);
   const { createMessage } = useMessage()
-
   const handleMinusOneCredit = async (credits: number) => {
     const idForm = englishUser.idForm + "";
     const usersRef = doc(db, "users", idForm);
@@ -33,10 +32,10 @@ export const Start = () => {
           }
         })
           .catch((e) => { console.log(e) })
-      }else if(englishUser.credits <= 0){
+      } else if (englishUser.credits <= 0) {
         console.log("No credits")
       }
-       else {
+      else {
         await updateDoc(usersRef, {
           ...englishUser,
           credits: newCredits,

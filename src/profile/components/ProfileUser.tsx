@@ -29,6 +29,7 @@ export const ProfileUser = () => {
 
       url
     }).then(() => {
+      setIsOpenProfiles(false)
       savedChanges()
       isNotLoading();
     })
