@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { TimeContext, UserContext } from "../../contexts";
 
 const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT);
