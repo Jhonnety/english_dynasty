@@ -4,26 +4,14 @@ import { TimeContext, UserContext } from "../../contexts";
 const MAX_CREDIT = parseInt(import.meta.env.VITE_MAX_CREDIT);
 
 export const CreditsUser = () => {
-  const { timeRemaining, resetTimer } = useContext(TimeContext);
+  const { timeRemaining } = useContext(TimeContext);
   const { englishUser } = useContext(UserContext);
   const [isWhatCreditsOpen, setIsWhatCreditsOpen] = useState(false);
   const formatTime = (time: number) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return`${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}` ;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
-
-  useEffect(() => {
-    const handleFocus = () => {
-      resetTimer();
-    };
-    window.addEventListener('focus', handleFocus);
-
-    return () => {
-      window.removeEventListener('focus', handleFocus);
-    };
-  }, []);
-
   return (
     <div className="creditUserContainer">
       <h1 className="credits"><i className="fa-light fa-coin"></i> Credits: {englishUser.credits}</h1>

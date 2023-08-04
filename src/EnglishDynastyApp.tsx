@@ -1,10 +1,10 @@
+
 import { UserProvider, AuthPopUpContext, TimeProvider } from './contexts'
 import { ButtonLoadingProvider } from './contexts/ButtonLoadingProvider'
 import { AppRouter } from './routers/AppRouter'
 
 
-
-function App() {
+export const EnglishDynastyApp = () => {
 
   return (
     <ButtonLoadingProvider>
@@ -19,4 +19,3 @@ function App() {
   )
 }
 
-export default App

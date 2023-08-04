@@ -64,6 +64,8 @@ export const Start = () => {
     }
   }
 
+
+  
   return (
     <>
       <div className='containerGirl1'>

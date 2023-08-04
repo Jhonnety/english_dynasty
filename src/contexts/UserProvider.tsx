@@ -274,6 +274,17 @@ export const UserProvider = ({
           const usersRef = collection(db, "users");
           const q = query(usersRef, where("email", "==", currentUser.email));
           const querySnapshot = await getDocs(q);
+          let infoUser = {
+            country: "",
+            englishLvl: "",
+            fullName: "",
+            interests: "",
+            url: "",
+            idForm: "",
+            lastCreditDate: "",
+            credits: 3,
+            kind: "",
+          }
           if (querySnapshot.empty) {
             try {
               await addDoc(collection(db, "users"), {
@@ -288,21 +299,12 @@ export const UserProvider = ({
                 credits: 3,
                 kind: "free",
                 lastCreditDate: ""
-              });
+              }).then((resp) => {
+                infoUser.idForm = resp.id
+              })
             } catch (e) {
               console.error("Error adding document: ", e);
             }
-          }
-          let infoUser = {
-            country: "",
-            englishLvl: "",
-            fullName: "",
-            interests: "",
-            url: "",
-            idForm: "",
-            lastCreditDate: "",
-            credits: 3,
-            kind: "",
           }
           querySnapshot.forEach((doc) => {
             infoUser = {
