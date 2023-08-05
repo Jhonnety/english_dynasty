@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import imagen_girl1 from '../assets/images/imagen_girl1.png';
 import { TimeContext, UserContext } from '../contexts';
 import { doc, updateDoc } from "firebase/firestore";
@@ -63,9 +63,13 @@ export const Start = () => {
 
     }
   }
+  //announcement
+  useEffect(() => {
+    (window as any).adsbygoogle = (window as any).adsbygoogle || [];
+
+  }, []);
 
 
-  
   return (
     <>
       <div className='containerGirl1'>
@@ -91,7 +95,17 @@ export const Start = () => {
 
         </div>
         <div className='containerNews'>
-
+          {/*announcement */}
+          <div>
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client="ca-pub-5029658863222685"
+              data-ad-slot="8652190338"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            ></ins>
+          </div>
         </div>
       </div>
 
