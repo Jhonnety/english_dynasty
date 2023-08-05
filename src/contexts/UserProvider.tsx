@@ -283,7 +283,7 @@ export const UserProvider = ({
             idForm: "",
             lastCreditDate: "",
             credits: 3,
-            kind: "",
+            kind: "Free",
           }
           if (querySnapshot.empty) {
             try {
@@ -297,7 +297,7 @@ export const UserProvider = ({
                 uid: currentUser.uid,
                 creationDate: new Date().toISOString(),
                 credits: 3,
-                kind: "free",
+                kind: "Free",
                 lastCreditDate: ""
               }).then((resp) => {
                 infoUser.idForm = resp.id

@@ -5,6 +5,20 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/games/**",
+        "dynamicLinks": true
+      },
+      {
+        "source": "/profile/**",
+        "dynamicLinks": true
+      }
     ]
   }
 }

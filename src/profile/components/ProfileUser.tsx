@@ -6,12 +6,19 @@ import { db } from '../../firebase/Initialization';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useMessage } from '../../hooks/useMessage';
 
+function getFirstName(fullName: any) {
+  if (fullName == undefined) return ""
+  const nameParts = fullName.split(" ");
+  const firstName = nameParts[0];
+  const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1).toLowerCase();
+  return capitalizedFirstName;
+}
+
 export const ProfileUser = () => {
   const [isOpenProfiles, setIsOpenProfiles] = useState(false)
   const { englishUser, changeProfilePhoto } = useContext(UserContext);
   const { isNotLoading, isLoading, loading } = useContext(ButtonLoadingContext);
   const { savedChanges, createMessage } = useMessage()
-
   const onChangeProfile = (url: string) => {
     if (!loading) {
       changeProfilePhoto(url);
@@ -19,7 +26,7 @@ export const ProfileUser = () => {
     }
   }
 
-  const saveProfilePhoto = async (url:string) => {
+  const saveProfilePhoto = async (url: string) => {
     isLoading();
     const idForm = englishUser.idForm + "";
     const usersRef = doc(db, "users", idForm);
@@ -68,8 +75,8 @@ export const ProfileUser = () => {
             }
           </div>
         }
-        <h1 className="nameProfile">Jhon</h1>
-        <h1 className="subcriptionProfile">Free account</h1>
+        <h1 className="nameProfile">{(englishUser.name != undefined && englishUser.name != "") ? getFirstName(englishUser.name) : getFirstName(englishUser.fullName)}</h1>
+        <h1 className="subcriptionProfile">{englishUser.kind} account</h1>
 
       </div >
     </>

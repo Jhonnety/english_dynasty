@@ -75,7 +75,7 @@ export const TimeProvider = ({ children }: TimeProvider) => {
                 addCredits(newCredits, englishUser.credits, englishUser.idForm as string, newDate as string);
             }
         }
-    }, [englishUser.credits, addCredit])
+    }, [englishUser.credits, addCredit, timeRemaining])
 
     const resetTimer = () => {
         setAddCredit(!addCredit);

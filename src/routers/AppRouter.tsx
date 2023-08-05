@@ -8,17 +8,19 @@ export const AppRouter = () => {
 
     const { resetTimer } = useContext(TimeContext);
     useEffect(() => {
-        const handleFocus = () => {
-            resetTimer();
-
+        const handleVisibilityChange = () => {
+            if (!document.hidden) {
+                resetTimer();
+            }
         };
-        window.addEventListener('focus', handleFocus);
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
 
         return () => {
-            window.removeEventListener('focus', handleFocus);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
         };
-
     }, []);
+
     return (
         <>
             <Routes>

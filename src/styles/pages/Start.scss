@@ -94,7 +94,7 @@
 
 .containerAllResources {
     width: 94%;
-    background: red;
+    border: 2px solid red;
     margin: auto;
     display: flex;
     justify-content: space-between;
@@ -102,13 +102,13 @@
 
     .containerAll {
         width: 68%;
-        background: green;
+        border: 2px solid green;
         height: 800px;
     }
 
     .containerNews {
         width: 28%;
-        background: greenyellow;
+        border: 2px solid greenyellow;
         height: 800px;
     }
 
