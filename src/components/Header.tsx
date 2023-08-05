@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Profile } from '../profile/components/Profile';
 import { MenuProfile, ProfileAdapted } from '../profile/components';
 import { AuthContext, UserContext } from '../contexts';
+import { MenuGames } from '../games/components';
 
 export const Header = () => {
 
@@ -11,6 +12,10 @@ export const Header = () => {
   const { englishUser } = useContext(UserContext);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [screen, setScreen] = useState(true)
+
+
+  const [isSubMenuGamesOpen, setIsSubMenuGamesOpen] = useState(false);
+
   const toggleNav = (responsiveNav: boolean = false) => {
     if (responsiveNav) setIsNavOpen(false);
     else setIsNavOpen(!isNavOpen);
@@ -37,6 +42,24 @@ export const Header = () => {
     openLogin();
     toggleNav();
   }
+
+  const subMenuGamesOpen = () => {
+    setIsSubMenuGamesOpen(true);
+  };
+
+  const subMenuGamesClose = () => {
+    setIsSubMenuGamesOpen(false);
+  };
+
+  const handleMenuGamesProfile = () => {
+    setIsSubMenuGamesOpen(!isSubMenuGamesOpen);
+  };
+
+  const handleOnClickGames = (e: any) => {
+    e.preventDefault();
+    handleMenuGamesProfile();
+  }
+
   return (
     <nav className="navbar">
       <div className="navbar-brand">
@@ -48,7 +71,7 @@ export const Header = () => {
         </Link>
       </div>
       <button className="navbar-toggle" onClick={() => toggleNav()}>
-        <i className={`navResponsiveButton ${isNavOpen ? 'fa-light fa-circle-xmark' : 'fa-solid fa-bars navbar-toggle-icon'}`}></i>
+        <i className={`navResponsiveButton ${isNavOpen ? 'fa-regular fa-xmark' : 'fa-solid fa-bars navbar-toggle-icon'}`}></i>
       </button>
       <ul className={`navbar-menu ${isNavOpen ? 'open' : ''} ${!screen ? 'fadeInDown' : ''}`}>
         {!screen && <ProfileAdapted />}
@@ -59,13 +82,22 @@ export const Header = () => {
         >
           <i className="fa-regular fa-house"></i> Start
         </NavLink>
-        <NavLink
-          className={({ isActive }) => `${isActive ? 'active linkHeader' : 'linkHeader'}`}
-          to="/games"
-          onClick={() => toggleNav(true)}
+        <div className='subMenuGamer' onMouseLeave={subMenuGamesClose}
         >
-          <i className="fa-light fa-alien-8bit"></i> Games
-        </NavLink>
+          <NavLink
+            className={({ isActive }) => `${isActive ? 'active linkHeader' : 'linkHeader'}`}
+            to=""
+            onClick={handleOnClickGames}
+            onMouseOver={subMenuGamesOpen}
+          >
+            <i className="fa-regular fa-dragon"></i> Games
+          </NavLink>
+          {
+            isSubMenuGamesOpen && <MenuGames setIsSubMenuOpen={setIsNavOpen} />
+          }
+        </div>
+
+
         <NavLink
           className={({ isActive }) => `${isActive ? 'active linkHeader' : 'linkHeader'}`}
           to="/resources"

@@ -22,8 +22,6 @@ export const AppRouter = () => {
     return (
         <>
             <Routes>
-                {/*                 <Route path="/auth/*" element={<AuthRoutes />}
-                /> */}
                 <Route path="/*" element={<DynastyRoutes />}
                 />
             </Routes>
