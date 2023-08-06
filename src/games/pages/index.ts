@@ -1,2 +1,2 @@
-export * from "./SwordMasterMenu.tsx";
+export * from "./GameCoverTemplate.tsx";
 export * from "./WordArrowMenu.tsx";
