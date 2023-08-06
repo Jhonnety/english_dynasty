@@ -66,11 +66,15 @@
     }
 
     .nameProfile {
-        width: 80%;
+        width: 90%;
         text-align: center;
         margin: 0 auto;
+        max-lines: 2;
         font-size: 2rem;
         transform: translateY(-40px);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .subcriptionProfile {
@@ -130,16 +134,3 @@
         transform: scale(1.05);
     }
 }
-
-/* @media (min-width: 1350px) {
-    .changeProfileImageContainer {
-      transform: translateY(-40%);
-      background: red;
-    }
-  }
-  
-  @media (min-width: 800px) {
-    .changeProfileImageContainer {
-      transform: translateY(-30%);
-    }
-  }  */
