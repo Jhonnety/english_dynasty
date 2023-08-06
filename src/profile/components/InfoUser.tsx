@@ -32,7 +32,6 @@ export const InfoUser = () => {
         }
         else onInputChange(event)
     }
-
     const handleUpdateUser = async () => {
         isLoading();
         const idForm = englishUser.idForm + "";
@@ -61,6 +60,7 @@ export const InfoUser = () => {
 
     }
     return (
+
         <div className="infoUserContainer">
             <ol className="infoUserList">
                 <li className="infoUserItem">
@@ -89,5 +89,6 @@ export const InfoUser = () => {
             </div>
 
         </div>
+
     )
 }

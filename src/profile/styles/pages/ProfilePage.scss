@@ -16,13 +16,34 @@
     }
 
     .infoUserColumn {
-        margin-left:2%;
+        margin-left: 2%;
         width: 68%;
         height: fit-content;
         min-height: calc(100vh - 70px);
         background: none;
     }
 }
+
+.loadinProfilePage {
+    width: 100%;
+    height: calc(100vh - 70px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .sk-chase {
+        width: 50px;
+        margin: auto;
+        height: 50px;
+        position: relative;
+        animation: sk-chase 2.5s infinite linear both;
+    }
+
+    .sk-chase-dot:before {
+        background-color: $title1;
+    }
+}
+
 @media (max-width:$adaptation) {
     .profilePageContainer {
         flex-direction: column;
@@ -31,11 +52,11 @@
             width: 100%;
             min-height: 100px;
         }
-    
+
         .infoUserColumn {
             margin-top: 2vw;
             width: 100%;
-            margin-left:0;
+            margin-left: 0;
         }
     }
 }
