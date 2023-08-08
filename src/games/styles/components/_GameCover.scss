@@ -6,6 +6,7 @@
     margin: 10px 0;
     padding: 0;
     position: relative;
+    cursor: pointer;
 
     .coverImage {
         width: 100%;
@@ -47,6 +48,12 @@
     .paragraphCover {
         margin: 0 5px;
     }
+}
+
+.gameCoverContainer:hover {
+    filter: brightness(70%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
 }
 
 @media (max-width:600px) {

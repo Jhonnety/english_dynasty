@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom"
+
 interface GameCoverProps {
     imgSrc: string,
     titleGame: string,
@@ -6,8 +8,15 @@ interface GameCoverProps {
 }
 
 export const GameCover: React.FC<GameCoverProps> = ({ imgSrc, titleGame, cost, mode }) => {
+
+    const navigate = useNavigate()
+    const handleClickGame = () => {
+        const game = titleGame.replace(/\s/g, '');
+        navigate(`${game.toLowerCase().trim()}`)
+    }
+    
     return (
-        <div className="gameCoverContainer">
+        <div className="gameCoverContainer" onClick={handleClickGame}>
             <div className='starsContainer'>
                 <i className="fa-solid fa-star"></i>
                 <i className="fa-solid fa-star"></i>

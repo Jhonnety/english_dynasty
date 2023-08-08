@@ -1,6 +1,7 @@
 import { GameCover } from "../components/GameCover"
 
 import livinRoom from '../../assets/games/sword_master/living_room/living_room_cover.png'
+import bedRoom from '../../assets/games/sword_master/bedroom/bedroom_cover.jpg'
 
 export const GameCoverTemplate = () => {
   return (
@@ -14,7 +15,7 @@ export const GameCoverTemplate = () => {
           mode="Object selection" />
 
         <GameCover
-          imgSrc={livinRoom}
+          imgSrc={bedRoom}
           titleGame="bathroom"
           cost={2}
           mode="Object selection" />
